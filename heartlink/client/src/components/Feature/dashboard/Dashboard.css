@@ -1,0 +1,93 @@
+/* Container */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  margin: 40px 0;
+}
+
+/* Card */
+.card {
+  position: relative;
+  width: 300px;
+  height: 400px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+}
+
+/* Swipe animations */
+.swipe-right {
+  transform: translateX(300px) rotate(12deg);
+  opacity: 0;
+}
+
+.swipe-left {
+  transform: translateX(-300px) rotate(-12deg);
+  opacity: 0;
+}
+
+/* Image */
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Overlay */
+.card-overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+  color: #ffffff;
+}
+
+.card-overlay h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Buttons */
+.button-group {
+  display: flex;
+  gap: 30px;
+  margin-top: 24px;
+}
+
+/* Swipe buttons */
+.swipe-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1px solid #eaeaea;
+  font-size: 20px;
+  cursor: pointer;
+  background: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.swipe-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+/* Dislike button */
+.btn-dislike {
+  background: #fff1f1;
+  color: #e53935;
+}
+
+/* Like button */
+.btn-like {
+  background: #eefcf5;
+  color: #2ecc71;
+}

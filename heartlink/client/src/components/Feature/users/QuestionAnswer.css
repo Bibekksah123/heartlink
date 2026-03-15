@@ -1,0 +1,89 @@
+/* Page Background */
+.dating-section {
+  background: #fff1f2;
+  min-height: 100vh;
+  padding: 60px 20px;
+}
+
+/* Card Container */
+.dating-container {
+  max-width: 900px;
+  margin: auto;
+  background: white;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  border-radius: 20px;
+  padding: 40px;
+}
+
+/* Title */
+.dating-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #db2777;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Question block */
+.question-box {
+  margin-bottom: 25px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+.question-text {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Options grid */
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Option Button */
+.option-btn {
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background: rgb(4, 143, 136);
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.option-btn:hover {
+  background: #16aca4;
+}
+
+/* Selected option */
+.option-selected {
+  background: #db2777;
+  color: white;
+  border: 1px solid #db2777;
+}
+
+/* Submit Button */
+.submit-box {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.submit-btn {
+  padding: 12px 25px;
+  background: #db2777;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit-btn:hover {
+  background: #be185d;
+}

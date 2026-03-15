@@ -1,0 +1,59 @@
+.profile-section {
+  
+  background: #fff1f2;
+  min-height: 100vh;
+  padding: 50px;
+}
+
+.profile-container {
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.profile-title {
+  text-align: center;
+  color: #db2777;
+  margin-bottom: 25px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 10px;
+  color: #db2777;
+  font-weight: 500;
+}
+
+input,
+textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+}
+
+textarea {
+  resize: none;
+  height: 80px;
+}
+
+button {
+  margin-top: 20px;
+  padding: 12px;
+  background: #db2777;
+  border: none;
+  color: white;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #be185d;
+}

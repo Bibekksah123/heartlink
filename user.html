@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velour — Where Souls Connect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════
+   RESET & VARIABLES
+═══════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink:    #0e0b14;
+  --deep:   #160f22;
+  --card:   #1c1429;
+  --line:   rgba(255,255,255,0.07);
+  --rose:   #e07b8a;
+  --rose2:  #c94f63;
+  --amber:  #d4a24c;
+  --amber2: #f0c878;
+  --cream:  #f5ede0;
+  --muted:  rgba(245,237,224,0.45);
+  --serif:  'Playfair Display', serif;
+  --sans:   'Jost', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--sans);
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CUSTOM CURSOR
+═══════════════════════════════════════════════════════════ */
+#cursor-dot {
+  width: 8px; height: 8px;
+  background: var(--rose);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: transform 0.1s, background 0.3s;
+}
+#cursor-ring {
+  width: 36px; height: 36px;
+  border: 1.5px solid rgba(224,123,138,0.5);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: transform 0.12s ease, width 0.3s, height 0.3s, opacity 0.3s;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CANVAS PARTICLES
+═══════════════════════════════════════════════════════════ */
+#particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.6; }
+
+/* ═══════════════════════════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════════════════════════ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--ink); }
+::-webkit-scrollbar-thumb { background: var(--rose2); border-radius: 4px; }
+
+/* ═══════════════════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 22px 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background 0.4s, padding 0.4s;
+}
+nav.scrolled {
+  background: rgba(14,11,20,0.9);
+  backdrop-filter: blur(20px);
+  padding: 14px 60px;
+  border-bottom: 1px solid var(--line);
+}
+.nav-logo {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  color: var(--cream);
+  text-decoration: none;
+}
+.nav-logo span { color: var(--rose); }
+.nav-links { display: flex; align-items: center; gap: 40px; list-style: none; }
+.nav-links a {
+  text-decoration: none; color: var(--muted);
+  font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase;
+  transition: color 0.3s; position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 1px; background: var(--rose);
+  transition: width 0.3s;
+}
+.nav-links a:hover { color: var(--cream); }
+.nav-links a:hover::after { width: 100%; }
+.nav-cta {
+  background: linear-gradient(135deg, var(--rose2), var(--rose));
+  color: white; border: none; padding: 11px 28px;
+  border-radius: 50px; font-family: var(--sans);
+  font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+  cursor: none; transition: transform 0.25s, box-shadow 0.25s;
+  box-shadow: 0 4px 20px rgba(201,79,99,0.35);
+}
+.nav-cta:hover { transform: scale(1.05); box-shadow: 0 8px 32px rgba(201,79,99,0.5); }
+
+/* ═══════════════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════════════ */
+#hero {
+  position: relative; min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(201,79,99,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 20% 80%, rgba(212,162,76,0.12) 0%, transparent 55%),
+    var(--ink);
+}
+.hero-img-wrap {
+  position: absolute; right: 0; top: 0; bottom: 0;
+  width: 52%; overflow: hidden;
+}
+.hero-img-wrap::before {
+  content: ''; position: absolute; inset: 0; z-index: 2;
+  background: linear-gradient(to right, var(--ink) 0%, transparent 40%),
+              linear-gradient(to top, var(--ink) 0%, transparent 30%);
+}
+.hero-img-wrap img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: saturate(0.8) brightness(0.75);
+}
+.hero-content {
+  position: relative; z-index: 10;
+  padding: 0 60px; max-width: 680px;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 0.8s 0.3s forwards;
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: ''; width: 30px; height: 1px; background: var(--amber);
+}
+.hero-h1 {
+  font-family: var(--serif); font-size: clamp(52px, 6vw, 82px);
+  font-weight: 400; line-height: 1.08; letter-spacing: -0.01em;
+  margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 0.9s 0.5s forwards;
+}
+.hero-h1 em { font-style: italic; color: var(--rose); display: block; }
+.hero-sub {
+  font-size: 16px; line-height: 1.75; color: var(--muted);
+  max-width: 440px; margin-bottom: 48px; font-weight: 300;
+  opacity: 0; animation: fadeUp 0.9s 0.7s forwards;
+}
+.hero-actions {
+  display: flex; gap: 16px; align-items: center;
+  opacity: 0; animation: fadeUp 0.9s 0.9s forwards;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--rose2), var(--rose));
+  color: white; border: none; padding: 16px 42px;
+  border-radius: 50px; font-family: var(--sans);
+  font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase;
+  cursor: none; transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 8px 32px rgba(201,79,99,0.4);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(201,79,99,0.55); }
+.btn-ghost {
+  background: none; color: var(--cream);
+  border: 1px solid rgba(245,237,224,0.2); padding: 15px 36px;
+  border-radius: 50px; font-family: var(--sans);
+  font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase;
+  cursor: none; transition: border-color 0.3s, background 0.3s;
+}
+.btn-ghost:hover { border-color: rgba(245,237,224,0.5); background: rgba(245,237,224,0.05); }
+.hero-stats {
+  position: absolute; bottom: 60px; left: 60px;
+  display: flex; gap: 48px; z-index: 10;
+  opacity: 0; animation: fadeUp 0.9s 1.1s forwards;
+}
+.hero-stat {}
+.hero-stat-num {
+  font-family: var(--serif); font-size: 36px; font-weight: 400;
+  color: var(--amber2); line-height: 1;
+}
+.hero-stat-label {
+  font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); margin-top: 4px;
+}
+.scroll-indicator {
+  position: absolute; bottom: 40px; right: 60px; z-index: 10;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0; animation: fadeIn 1s 1.5s forwards;
+}
+.scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--rose), transparent); animation: scrollPulse 2s infinite; }
+.scroll-text { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); writing-mode: vertical-rl; }
+@keyframes scrollPulse { 0%,100%{opacity:0.4;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.1)} }
+
+/* ═══════════════════════════════════════════════════════════
+   MARQUEE
+═══════════════════════════════════════════════════════════ */
+.marquee-wrap {
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  padding: 18px 0; overflow: hidden; position: relative; z-index: 5;
+}
+.marquee-track {
+  display: flex; gap: 0;
+  animation: marquee 22s linear infinite;
+  width: max-content;
+}
+.marquee-item {
+  display: flex; align-items: center; gap: 20px;
+  padding: 0 32px; white-space: nowrap;
+  font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted);
+}
+.marquee-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--rose); flex-shrink: 0; }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION SHARED
+═══════════════════════════════════════════════════════════ */
+section { position: relative; z-index: 5; }
+.section-label {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 20px;
+}
+.section-label::before { content: ''; width: 24px; height: 1px; background: var(--amber); }
+.section-title {
+  font-family: var(--serif); font-size: clamp(36px, 4vw, 56px);
+  font-weight: 400; line-height: 1.12; margin-bottom: 20px;
+}
+.section-title em { font-style: italic; color: var(--rose); }
+.section-sub { font-size: 15px; color: var(--muted); line-height: 1.75; max-width: 520px; }
+
+/* ═══════════════════════════════════════════════════════════
+   HOW IT WORKS
+═══════════════════════════════════════════════════════════ */
+#how { padding: 120px 60px; }
+.how-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+  align-items: center; margin-top: 80px;
+}
+.how-steps { display: flex; flex-direction: column; gap: 0; }
+.how-step {
+  display: flex; gap: 28px; padding: 36px 0;
+  border-bottom: 1px solid var(--line);
+  opacity: 0; transform: translateX(-30px);
+  transition: opacity 0.7s, transform 0.7s;
+}
+.how-step.visible { opacity: 1; transform: translateX(0); }
+.how-step:last-child { border-bottom: none; }
+.step-num {
+  font-family: var(--serif); font-size: 48px; font-weight: 400;
+  color: rgba(224,123,138,0.15); line-height: 1;
+  flex-shrink: 0; min-width: 56px;
+  transition: color 0.3s;
+}
+.how-step:hover .step-num { color: rgba(224,123,138,0.4); }
+.step-icon {
+  width: 48px; height: 48px; border-radius: 14px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; margin-top: 4px;
+}
+.step-icon.rose { background: rgba(224,123,138,0.12); }
+.step-icon.amber { background: rgba(212,162,76,0.12); }
+.step-icon.teal { background: rgba(99,200,190,0.12); }
+.step-body {}
+.step-title { font-family: var(--serif); font-size: 22px; font-weight: 500; margin-bottom: 10px; }
+.step-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+.how-visual { position: relative; }
+.how-phone {
+  width: 280px; margin: 0 auto; display: block;
+  border-radius: 36px; overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+  position: relative; z-index: 2;
+}
+.how-phone img { width: 100%; display: block; }
+.how-glow {
+  position: absolute; width: 300px; height: 300px;
+  border-radius: 50%; filter: blur(80px);
+  background: radial-gradient(circle, rgba(201,79,99,0.3), transparent);
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  z-index: 1;
+}
+.float-card {
+  position: absolute; background: rgba(28,20,41,0.9);
+  backdrop-filter: blur(20px); border: 1px solid var(--line);
+  border-radius: 18px; padding: 14px 18px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  z-index: 3;
+}
+.float-card.left { left: -30px; top: 30%; }
+.float-card.right { right: -20px; bottom: 25%; }
+.float-card-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.float-card-val { font-family: var(--serif); font-size: 22px; font-weight: 500; }
+.float-card-val.gold { color: var(--amber2); }
+.float-card-val.rose { color: var(--rose); }
+
+/* ═══════════════════════════════════════════════════════════
+   PROFILES
+═══════════════════════════════════════════════════════════ */
+#profiles { padding: 120px 60px; }
+.profiles-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 60px; }
+.profiles-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.profile-card {
+  border-radius: 24px; overflow: hidden;
+  position: relative; cursor: none;
+  opacity: 0; transform: translateY(40px);
+  transition: opacity 0.7s, transform 0.7s, box-shadow 0.4s;
+  border: 1px solid var(--line);
+}
+.profile-card.visible { opacity: 1; transform: translateY(0); }
+.profile-card:nth-child(2) { margin-top: 40px; }
+.profile-card:nth-child(4) { margin-top: -40px; }
+.profile-card:hover { box-shadow: 0 30px 70px rgba(0,0,0,0.5), 0 0 0 1px rgba(224,123,138,0.2); }
+.profile-card img {
+  width: 100%; aspect-ratio: 3/4; object-fit: cover;
+  display: block; filter: saturate(0.85);
+  transition: transform 0.6s, filter 0.4s;
+}
+.profile-card:hover img { transform: scale(1.04); filter: saturate(1); }
+.profile-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(14,11,20,0.95) 0%, rgba(14,11,20,0.2) 50%, transparent 100%);
+  transition: background 0.4s;
+}
+.profile-card:hover .profile-overlay {
+  background: linear-gradient(to top, rgba(14,11,20,0.97) 0%, rgba(14,11,20,0.4) 60%, transparent 100%);
+}
+.profile-body { position: absolute; bottom: 0; left: 0; right: 0; padding: 22px; }
+.profile-name { font-family: var(--serif); font-size: 22px; font-weight: 500; margin-bottom: 4px; }
+.profile-meta { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+.profile-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.ptag {
+  font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px; padding: 4px 10px; color: rgba(245,237,224,0.65);
+}
+.profile-actions { display: flex; gap: 8px; opacity: 0; transform: translateY(8px); transition: opacity 0.3s, transform 0.3s; }
+.profile-card:hover .profile-actions { opacity: 1; transform: translateY(0); }
+.pa-btn {
+  flex: 1; padding: 10px; border-radius: 50px; border: none;
+  font-family: var(--sans); font-size: 12px; letter-spacing: 0.08em;
+  text-transform: uppercase; cursor: none; transition: transform 0.2s;
+}
+.pa-btn:hover { transform: scale(1.03); }
+.pa-like { background: linear-gradient(135deg, var(--rose2), var(--rose)); color: white; }
+.pa-view { background: rgba(255,255,255,0.08); color: var(--cream); border: 1px solid var(--line) !important; }
+.match-badge {
+  position: absolute; top: 16px; right: 16px;
+  background: rgba(14,11,20,0.75); backdrop-filter: blur(12px);
+  border: 1px solid rgba(212,162,76,0.35); border-radius: 20px;
+  padding: 5px 12px; font-size: 12px; color: var(--amber2);
+  display: flex; align-items: center; gap: 5px;
+}
+.match-heart { color: var(--rose); }
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURES / LUXURY STRIP
+═══════════════════════════════════════════════════════════ */
+#features {
+  padding: 100px 60px;
+  background: linear-gradient(135deg, rgba(22,15,34,0.8), rgba(14,11,20,0.9));
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+}
+.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 70px; }
+.feature-item {
+  padding: 50px 40px; border-right: 1px solid var(--line);
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.6s, transform 0.6s, background 0.3s;
+}
+.feature-item:last-child { border-right: none; }
+.feature-item.visible { opacity: 1; transform: translateY(0); }
+.feature-item:hover { background: rgba(255,255,255,0.02); }
+.feature-icon {
+  width: 60px; height: 60px; border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; margin-bottom: 28px;
+  background: linear-gradient(135deg, rgba(201,79,99,0.15), rgba(212,162,76,0.1));
+  border: 1px solid rgba(224,123,138,0.15);
+}
+.feature-title { font-family: var(--serif); font-size: 22px; margin-bottom: 14px; }
+.feature-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+/* ═══════════════════════════════════════════════════════════
+   TESTIMONIALS
+═══════════════════════════════════════════════════════════ */
+#stories { padding: 120px 60px; }
+.stories-intro { max-width: 600px; margin-bottom: 80px; }
+.stories-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.story-card {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 24px; padding: 36px;
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.7s, transform 0.7s, border-color 0.3s;
+}
+.story-card.visible { opacity: 1; transform: translateY(0); }
+.story-card:hover { border-color: rgba(224,123,138,0.25); }
+.story-stars { color: var(--amber); font-size: 14px; letter-spacing: 3px; margin-bottom: 20px; }
+.story-quote {
+  font-family: var(--serif); font-size: 17px; font-weight: 400;
+  font-style: italic; line-height: 1.65; color: rgba(245,237,224,0.85);
+  margin-bottom: 28px;
+}
+.story-author { display: flex; align-items: center; gap: 14px; }
+.story-avatar { width: 48px; height: 48px; border-radius: 50%; overflow: hidden; border: 2px solid var(--line); }
+.story-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.story-name { font-size: 14px; font-weight: 500; margin-bottom: 2px; }
+.story-location { font-size: 12px; color: var(--muted); }
+
+/* ═══════════════════════════════════════════════════════════
+   PRICING
+═══════════════════════════════════════════════════════════ */
+#pricing { padding: 120px 60px; }
+.pricing-header { text-align: center; max-width: 600px; margin: 0 auto 70px; }
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1000px; margin: 0 auto; }
+.plan-card {
+  border-radius: 28px; padding: 44px 36px;
+  border: 1px solid var(--line); position: relative;
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.7s, transform 0.7s, border-color 0.3s, box-shadow 0.3s;
+  background: var(--card);
+}
+.plan-card.visible { opacity: 1; transform: translateY(0); }
+.plan-card.featured {
+  background: linear-gradient(145deg, rgba(201,79,99,0.15), rgba(28,20,41,1));
+  border-color: rgba(224,123,138,0.35);
+  box-shadow: 0 0 0 1px rgba(224,123,138,0.1), 0 30px 80px rgba(201,79,99,0.15);
+  transform: translateY(-12px);
+}
+.plan-card.featured.visible { transform: translateY(-12px); }
+.plan-badge {
+  position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--rose2), var(--rose));
+  color: white; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 6px 20px; border-radius: 20px; font-weight: 500;
+  box-shadow: 0 4px 16px rgba(201,79,99,0.4);
+}
+.plan-name { font-family: var(--serif); font-size: 26px; margin-bottom: 8px; }
+.plan-price {
+  font-family: var(--serif); font-size: 52px; font-weight: 400; line-height: 1;
+  margin: 24px 0 8px;
+}
+.plan-price sup { font-size: 22px; vertical-align: top; margin-top: 12px; }
+.plan-period { font-size: 13px; color: var(--muted); margin-bottom: 32px; }
+.plan-divider { height: 1px; background: var(--line); margin-bottom: 28px; }
+.plan-features { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-bottom: 36px; }
+.plan-features li { display: flex; align-items: center; gap: 12px; font-size: 14px; color: rgba(245,237,224,0.75); }
+.plan-features li .check { color: var(--rose); font-size: 16px; flex-shrink: 0; }
+.plan-features li .cross { color: rgba(255,255,255,0.2); font-size: 16px; flex-shrink: 0; }
+.plan-btn {
+  width: 100%; padding: 16px; border-radius: 50px; border: none;
+  font-family: var(--sans); font-size: 13px; letter-spacing: 0.1em;
+  text-transform: uppercase; cursor: none; transition: transform 0.25s, box-shadow 0.25s;
+}
+.plan-btn.primary {
+  background: linear-gradient(135deg, var(--rose2), var(--rose));
+  color: white; box-shadow: 0 6px 24px rgba(201,79,99,0.35);
+}
+.plan-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(201,79,99,0.5); }
+.plan-btn.ghost { background: transparent; color: var(--cream); border: 1px solid rgba(245,237,224,0.2); }
+.plan-btn.ghost:hover { border-color: rgba(245,237,224,0.4); background: rgba(245,237,224,0.04); }
+
+/* ═══════════════════════════════════════════════════════════
+   CTA BANNER
+═══════════════════════════════════════════════════════════ */
+#cta {
+  margin: 0 60px 120px; border-radius: 32px;
+  background: linear-gradient(135deg, rgba(201,79,99,0.25) 0%, rgba(212,162,76,0.15) 50%, rgba(28,20,41,0.8) 100%);
+  border: 1px solid rgba(224,123,138,0.2);
+  padding: 80px; text-align: center; position: relative; overflow: hidden;
+}
+.cta-glow {
+  position: absolute; width: 500px; height: 500px;
+  border-radius: 50%; filter: blur(100px);
+  background: radial-gradient(circle, rgba(201,79,99,0.25), transparent);
+  top: 50%; left: 50%; transform: translate(-50%,-50%);
+  pointer-events: none;
+}
+.cta-title { font-family: var(--serif); font-size: clamp(36px, 4vw, 54px); font-weight: 400; line-height: 1.15; margin-bottom: 20px; position: relative; }
+.cta-title em { font-style: italic; color: var(--rose); }
+.cta-sub { font-size: 15px; color: var(--muted); margin-bottom: 44px; position: relative; }
+.cta-actions { display: flex; gap: 16px; justify-content: center; position: relative; }
+
+/* ═══════════════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════════════ */
+footer {
+  border-top: 1px solid var(--line); padding: 60px;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px;
+}
+.footer-logo { font-family: var(--serif); font-size: 28px; font-style: italic; margin-bottom: 16px; }
+.footer-logo span { color: var(--rose); }
+.footer-tagline { font-size: 13px; color: var(--muted); line-height: 1.65; max-width: 260px; margin-bottom: 28px; }
+.footer-socials { display: flex; gap: 12px; }
+.social-btn {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--card); border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; cursor: none; transition: border-color 0.3s, background 0.3s;
+}
+.social-btn:hover { border-color: var(--rose); background: rgba(224,123,138,0.1); }
+.footer-col h4 {
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 20px;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.footer-col a { font-size: 14px; color: var(--muted); text-decoration: none; transition: color 0.3s; }
+.footer-col a:hover { color: var(--cream); }
+.footer-bottom {
+  border-top: 1px solid var(--line); padding: 24px 60px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-copy { font-size: 12px; color: var(--muted); }
+
+/* ═══════════════════════════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════════════════════════ */
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+/* ═══════════════════════════════════════════════════════════
+   MODAL
+═══════════════════════════════════════════════════════════ */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(14,11,20,0.88); backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.4s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--deep); border: 1px solid var(--line);
+  border-radius: 28px; padding: 48px; max-width: 460px; width: 90%;
+  position: relative; text-align: center;
+  transform: scale(0.9) translateY(20px); transition: transform 0.4s;
+}
+.modal-overlay.open .modal { transform: scale(1) translateY(0); }
+.modal-close {
+  position: absolute; top: 20px; right: 20px;
+  background: none; border: none; color: var(--muted);
+  font-size: 22px; cursor: none; transition: color 0.3s;
+}
+.modal-close:hover { color: var(--cream); }
+.modal-icon { font-size: 52px; margin-bottom: 20px; }
+.modal-title { font-family: var(--serif); font-size: 30px; font-style: italic; color: var(--rose); margin-bottom: 10px; }
+.modal-sub { font-size: 14px; color: var(--muted); margin-bottom: 36px; line-height: 1.6; }
+.modal-form { display: flex; flex-direction: column; gap: 14px; text-align: left; }
+.form-group label { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 8px; }
+.form-group input, .form-group select {
+  width: 100%; padding: 14px 18px;
+  background: rgba(255,255,255,0.04); border: 1px solid var(--line);
+  border-radius: 12px; color: var(--cream); font-family: var(--sans);
+  font-size: 14px; outline: none; transition: border-color 0.3s;
+}
+.form-group input:focus, .form-group select:focus { border-color: rgba(224,123,138,0.4); }
+.form-group input::placeholder { color: rgba(245,237,224,0.25); }
+.form-submit {
+  width: 100%; padding: 16px; border-radius: 50px; border: none;
+  background: linear-gradient(135deg, var(--rose2), var(--rose));
+  color: white; font-family: var(--sans); font-size: 14px;
+  letter-spacing: 0.1em; text-transform: uppercase; cursor: none;
+  margin-top: 8px; transition: transform 0.25s, box-shadow 0.25s;
+  box-shadow: 0 6px 24px rgba(201,79,99,0.35);
+}
+.form-submit:hover { transform: translateY(-2px); }
+.form-switch { font-size: 13px; color: var(--muted); margin-top: 16px; text-align: center; }
+.form-switch a { color: var(--rose); text-decoration: none; cursor: none; }
+
+/* ═══════════════════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════════════════ */
+.toast {
+  position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px);
+  background: var(--deep); border: 1px solid rgba(224,123,138,0.3);
+  border-radius: 50px; padding: 14px 28px;
+  display: flex; align-items: center; gap: 12px;
+  font-size: 14px; z-index: 300;
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast-icon { font-size: 18px; }
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  nav { padding: 18px 24px; }
+  nav.scrolled { padding: 12px 24px; }
+  .nav-links { display: none; }
+  .hero-content { padding: 80px 24px 0; }
+  .hero-img-wrap { display: none; }
+  .hero-stats { left: 24px; bottom: 40px; gap: 32px; }
+  #how, #profiles, #features, #stories, #pricing { padding: 80px 24px; }
+  .how-grid { grid-template-columns: 1fr; }
+  .how-visual { display: none; }
+  .profiles-grid { grid-template-columns: repeat(2, 1fr); }
+  .profile-card:nth-child(2), .profile-card:nth-child(4) { margin-top: 0; }
+  .features-grid { grid-template-columns: 1fr; }
+  .feature-item { border-right: none; border-bottom: 1px solid var(--line); }
+  .stories-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .plan-card.featured { transform: translateY(0); }
+  .plan-card.featured.visible { transform: translateY(0); }
+  #cta { margin: 0 24px 80px; padding: 50px 28px; }
+  footer { grid-template-columns: 1fr 1fr; gap: 40px; padding: 40px 24px; }
+  .footer-bottom { padding: 20px 24px; flex-direction: column; gap: 10px; }
+  .profiles-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- Particles -->
+<canvas id="particles"></canvas>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <a href="#" class="nav-logo">velour<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#profiles">Explore</a></li>
+    <li><a href="#stories">Stories</a></li>
+    <li><a href="#pricing">Plans</a></li>
+  </ul>
+  <button class="nav-cta" onclick="openModal('signup')">Join Free</button>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-img-wrap">
+    <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=900&q=80" alt="Couple">
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Where Deep Connections Begin</div>
+    <h1 class="hero-h1">
+      Find Your<em>Perfect Someone</em>
+    </h1>
+    <p class="hero-sub">Velour uses intelligent matching to connect souls who are truly compatible — not just physically, but intellectually, emotionally, and deeply.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="openModal('signup')">Start Your Journey</button>
+      <button class="btn-ghost" onclick="openModal('login')">Sign In</button>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">4.2M+</div>
+      <div class="hero-stat-label">Members</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">98K</div>
+      <div class="hero-stat-label">Couples</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">142</div>
+      <div class="hero-stat-label">Countries</div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <div class="scroll-text">Scroll</div>
+  </div>
+</section>
+
+<!-- ── MARQUEE ── -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marquee"></div>
+</div>
+
+<!-- ── HOW IT WORKS ── -->
+<section id="how">
+  <div class="section-label">The Process</div>
+  <h2 class="section-title">Simple Steps to Your<em> Perfect Match</em></h2>
+  <div class="how-grid">
+    <div class="how-steps">
+      <div class="how-step" data-reveal>
+        <div class="step-num">01</div>
+        <div class="step-icon rose">✨</div>
+        <div class="step-body">
+          <div class="step-title">Create Your Profile</div>
+          <div class="step-desc">Share your personality, passions and what you're looking for. Our intelligent system builds a deep picture of who you are beyond the surface.</div>
+        </div>
+      </div>
+      <div class="how-step" data-reveal>
+        <div class="step-num">02</div>
+        <div class="step-icon amber">🔮</div>
+        <div class="step-body">
+          <div class="step-title">AI-Powered Matching</div>
+          <div class="step-desc">Our algorithm analyzes thousands of compatibility signals — values, lifestyle, communication style — to surface your most meaningful matches.</div>
+        </div>
+      </div>
+      <div class="how-step" data-reveal>
+        <div class="step-num">03</div>
+        <div class="step-icon teal">💌</div>
+        <div class="step-body">
+          <div class="step-title">Connect & Meet</div>
+          <div class="step-desc">Break the ice with curated conversation starters, then when it feels right — step into the real world and let something beautiful unfold.</div>
+        </div>
+      </div>
+    </div>
+    <div class="how-visual">
+      <div class="how-glow"></div>
+      <div class="how-phone">
+        <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&q=80" alt="App" />
+      </div>
+      <div class="float-card left">
+        <div class="float-card-label">Match Score</div>
+        <div class="float-card-val gold">96%</div>
+      </div>
+      <div class="float-card right">
+        <div class="float-card-label">New Today</div>
+        <div class="float-card-val rose">♥ 14</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROFILES ── -->
+<section id="profiles">
+  <div class="profiles-header">
+    <div>
+      <div class="section-label">Featured Members</div>
+      <h2 class="section-title">Real People,<em> Real Connections</em></h2>
+    </div>
+    <button class="btn-ghost" style="flex-shrink:0" onclick="openModal('signup')">Explore All →</button>
+  </div>
+  <div class="profiles-grid" id="profilesGrid"></div>
+</section>
+
+<!-- ── FEATURES ── -->
+<section id="features">
+  <div style="text-align:center; max-width:600px; margin:0 auto 0">
+    <div class="section-label" style="justify-content:center">Why Velour</div>
+    <h2 class="section-title">Crafted for Meaningful<em> Relationships</em></h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-item" data-reveal>
+      <div class="feature-icon">🧠</div>
+      <div class="feature-title">Deep Compatibility</div>
+      <div class="feature-desc">Our proprietary algorithm analyses over 200 personality dimensions to match you with people who truly complement who you are.</div>
+    </div>
+    <div class="feature-item" data-reveal>
+      <div class="feature-icon">🛡️</div>
+      <div class="feature-title">Verified Profiles</div>
+      <div class="feature-desc">Every member undergoes photo verification and identity checks. You'll only meet real, genuine people — no bots, no ghosts.</div>
+    </div>
+    <div class="feature-item" data-reveal>
+      <div class="feature-icon">🔒</div>
+      <div class="feature-title">Private & Secure</div>
+      <div class="feature-desc">Your data stays yours. End-to-end encrypted messages, private mode browsing, and granular privacy controls at every step.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STORIES ── -->
+<section id="stories">
+  <div class="stories-intro">
+    <div class="section-label">Love Stories</div>
+    <h2 class="section-title">They Found Love.<em> You're Next.</em></h2>
+    <p class="section-sub">Real couples who found their forever on Velour. Their stories remind us why we do what we do.</p>
+  </div>
+  <div class="stories-grid">
+    <div class="story-card" data-reveal>
+      <div class="story-stars">★★★★★</div>
+      <div class="story-quote">"I was skeptical of dating apps. Then Velour matched me with Marco. Six months later we were inseparable. One year later — engaged. This app changed my life."</div>
+      <div class="story-author">
+        <div class="story-avatar"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100&q=80" alt="Sofia"></div>
+        <div>
+          <div class="story-name">Sofia & Marco</div>
+          <div class="story-location">Milan, Italy</div>
+        </div>
+      </div>
+    </div>
+    <div class="story-card" data-reveal style="transition-delay:0.15s">
+      <div class="story-stars">★★★★★</div>
+      <div class="story-quote">"The match percentage feature is eerily accurate. When I saw 97% with James I thought it was a gimmick. Now we've been together 2 years. It knew before we did."</div>
+      <div class="story-author">
+        <div class="story-avatar"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&q=80" alt="Amara"></div>
+        <div>
+          <div class="story-name">Amara & James</div>
+          <div class="story-location">London, UK</div>
+        </div>
+      </div>
+    </div>
+    <div class="story-card" data-reveal style="transition-delay:0.3s">
+      <div class="story-stars">★★★★★</div>
+      <div class="story-quote">"After years of meaningless swipes on other apps, Velour felt different. Real conversations, real chemistry. We met for coffee. We didn't leave until midnight."</div>
+      <div class="story-author">
+        <div class="story-avatar"><img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=100&q=80" alt="Elena"></div>
+        <div>
+          <div class="story-name">Elena & Daniel</div>
+          <div class="story-location">Barcelona, Spain</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ── -->
+<section id="pricing">
+  <div class="pricing-header">
+    <div class="section-label" style="justify-content:center">Membership</div>
+    <h2 class="section-title">Invest in Your<em> Love Life</em></h2>
+    <p class="section-sub" style="margin:0 auto">Choose the plan that's right for your journey. No hidden fees, cancel anytime.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="plan-card" data-reveal>
+      <div class="plan-name">Free</div>
+      <div class="plan-price"><sup>$</sup>0</div>
+      <div class="plan-period">forever free</div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li><span class="check">✓</span> Create your profile</li>
+        <li><span class="check">✓</span> 10 matches per day</li>
+        <li><span class="check">✓</span> Basic messaging</li>
+        <li><span class="cross">✗</span> See who liked you</li>
+        <li><span class="cross">✗</span> Advanced filters</li>
+        <li><span class="cross">✗</span> Read receipts</li>
+      </ul>
+      <button class="plan-btn ghost" onclick="openModal('signup')">Get Started</button>
+    </div>
+    <div class="plan-card featured" data-reveal>
+      <div class="plan-badge">Most Popular</div>
+      <div class="plan-name">Gold</div>
+      <div class="plan-price"><sup>$</sup>19</div>
+      <div class="plan-period">per month · billed monthly</div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li><span class="check">✓</span> Unlimited matches</li>
+        <li><span class="check">✓</span> See who liked you</li>
+        <li><span class="check">✓</span> Advanced filters</li>
+        <li><span class="check">✓</span> Read receipts</li>
+        <li><span class="check">✓</span> Priority support</li>
+        <li><span class="cross">✗</span> Profile Boost</li>
+      </ul>
+      <button class="plan-btn primary" onclick="openModal('signup')">Start Gold</button>
+    </div>
+    <div class="plan-card" data-reveal>
+      <div class="plan-name">Platinum</div>
+      <div class="plan-price"><sup>$</sup>39</div>
+      <div class="plan-period">per month · billed monthly</div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li><span class="check">✓</span> Everything in Gold</li>
+        <li><span class="check">✓</span> Weekly Profile Boost</li>
+        <li><span class="check">✓</span> Super Likes × 5/day</li>
+        <li><span class="check">✓</span> Incognito mode</li>
+        <li><span class="check">✓</span> Dedicated matchmaker</li>
+        <li><span class="check">✓</span> VIP events access</li>
+      </ul>
+      <button class="plan-btn ghost" onclick="openModal('signup')">Go Platinum</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section id="cta">
+  <div class="cta-glow"></div>
+  <h2 class="cta-title">Your Story is Waiting<em> to Begin</em></h2>
+  <p class="cta-sub">Join over 4 million members who have found meaningful connections on Velour.</p>
+  <div class="cta-actions">
+    <button class="btn-primary" onclick="openModal('signup')">Create Free Account</button>
+    <button class="btn-ghost" onclick="openModal('login')">Already a Member</button>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div>
+    <div class="footer-logo">velour<span>.</span></div>
+    <p class="footer-tagline">Where meaningful connections happen every day. For people who believe in real love.</p>
+    <div class="footer-socials">
+      <div class="social-btn">𝕏</div>
+      <div class="social-btn">in</div>
+      <div class="social-btn">ig</div>
+    </div>
+  </div>
+  <div class="footer-col">
+    <h4>Product</h4>
+    <ul>
+      <li><a href="#">How It Works</a></li>
+      <li><a href="#">Pricing</a></li>
+      <li><a href="#">Success Stories</a></li>
+      <li><a href="#">Blog</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Company</h4>
+    <ul>
+      <li><a href="#">About Us</a></li>
+      <li><a href="#">Careers</a></li>
+      <li><a href="#">Press</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Legal</h4>
+    <ul>
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Terms of Service</a></li>
+      <li><a href="#">Cookie Policy</a></li>
+      <li><a href="#">Safety Tips</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <div class="footer-copy">© 2025 Velour Inc. All rights reserved.</div>
+  <div class="footer-copy">Made with ♥ for people who believe in love</div>
+</div>
+
+<!-- ── MODAL ── -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast">
+  <span class="toast-icon">💫</span>
+  <span id="toast-msg">Welcome to Velour!</span>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   CURSOR
+═══════════════════════════════════════════════════════ */
+const dot = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animCursor() {
+  dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+document.querySelectorAll('button, a, .profile-card, .social-btn, .icon-btn').forEach(el => {
+  el.addEventListener('mouseenter', () => { ring.style.width='54px'; ring.style.height='54px'; ring.style.borderColor='rgba(224,123,138,0.8)'; dot.style.transform='translate(-50%,-50%) scale(0)'; });
+  el.addEventListener('mouseleave', () => { ring.style.width='36px'; ring.style.height='36px'; ring.style.borderColor='rgba(224,123,138,0.5)'; dot.style.transform='translate(-50%,-50%) scale(1)'; });
+});
+
+/* ═══════════════════════════════════════════════════════
+   PARTICLES
+═══════════════════════════════════════════════════════ */
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+const particles = Array.from({length: 70}, () => ({
+  x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+  r: Math.random() * 1.5 + 0.3,
+  vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+  a: Math.random(),
+  c: Math.random() > 0.5 ? '224,123,138' : '212,162,76'
+}));
+function drawParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
+    if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${p.c},${p.a * 0.6})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(drawParticles);
+}
+drawParticles();
+
+/* ═══════════════════════════════════════════════════════
+   NAV SCROLL
+═══════════════════════════════════════════════════════ */
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+/* ═══════════════════════════════════════════════════════
+   MARQUEE
+═══════════════════════════════════════════════════════ */
+const marqueeItems = ['Real Connections','Intelligent Matching','4.2M+ Members','Verified Profiles','Privacy First','Success Stories','Deep Compatibility','98K Couples Formed'];
+const track = document.getElementById('marquee');
+const doubled = [...marqueeItems, ...marqueeItems];
+doubled.forEach(t => {
+  track.innerHTML += `<div class="marquee-item"><div class="marquee-dot"></div>${t}</div>`;
+});
+
+/* ═══════════════════════════════════════════════════════
+   PROFILES
+═══════════════════════════════════════════════════════ */
+const profileData = [
+  { name:'Sophia Laurent', age:26, city:'Paris', tags:['Art','Wine','Travel'], match:94, img:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&q=80' },
+  { name:'Isabella Chen', age:28, city:'New York', tags:['Design','Coffee','Books'], match:88, img:'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80' },
+  { name:'Amara Osei', age:25, city:'Lagos', tags:['Music','Poetry','Dance'], match:91, img:'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&q=80' },
+  { name:'Elena Voss', age:27, city:'Berlin', tags:['Photography','Hiking'], match:87, img:'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=400&q=80' },
+];
+const grid = document.getElementById('profilesGrid');
+profileData.forEach((p, i) => {
+  grid.innerHTML += `
+    <div class="profile-card" style="transition-delay:${i*0.12}s" data-reveal>
+      <img src="${p.img}" alt="${p.name}" loading="lazy">
+      <div class="profile-overlay"></div>
+      <div class="match-badge"><span class="match-heart">♥</span> ${p.match}%</div>
+      <div class="profile-body">
+        <div class="profile-name">${p.name}</div>
+        <div class="profile-meta">${p.age} · ${p.city}</div>
+        <div class="profile-tags">${p.tags.map(t=>`<span class="ptag">${t}</span>`).join('')}</div>
+        <div class="profile-actions">
+          <button class="pa-btn pa-like" onclick="showToast('💘 You liked ${p.name}!')">♥ Like</button>
+          <button class="pa-btn pa-view" onclick="openModal('profile','${p.name}','${p.img}','${p.age}','${p.city}','${p.tags.join(',')}','${p.match}')">View</button>
+        </div>
+      </div>
+    </div>`;
+});
+
+/* ═══════════════════════════════════════════════════════
+   INTERSECTION OBSERVER (Reveal on Scroll)
+═══════════════════════════════════════════════════════ */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.15 });
+document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+
+/* ═══════════════════════════════════════════════════════
+   MODAL
+═══════════════════════════════════════════════════════ */
+function openModal(type, name, img, age, city, tags, match) {
+  const overlay = document.getElementById('modal');
+  const body = document.getElementById('modal-body');
+  if (type === 'signup') {
+    body.innerHTML = `
+      <div class="modal-icon">💫</div>
+      <div class="modal-title">Join Velour</div>
+      <div class="modal-sub">Find meaningful connections with people who truly match your soul.</div>
+      <div class="modal-form">
+        <div class="form-group"><label>Full Name</label><input type="text" placeholder="Your name"></div>
+        <div class="form-group"><label>Email</label><input type="email" placeholder="you@email.com"></div>
+        <div class="form-group"><label>Password</label><input type="password" placeholder="••••••••"></div>
+        <div class="form-group"><label>I am</label>
+          <select>
+            <option>A woman</option><option>A man</option><option>Non-binary</option>
+          </select>
+        </div>
+        <button class="form-submit" onclick="handleSignup()">Create My Account →</button>
+        <div class="form-switch">Already have an account? <a onclick="openModal('login')">Sign in</a></div>
+      </div>`;
+  } else if (type === 'login') {
+    body.innerHTML = `
+      <div class="modal-icon">🔑</div>
+      <div class="modal-title">Welcome Back</div>
+      <div class="modal-sub">Sign in to continue your journey to love.</div>
+      <div class="modal-form">
+        <div class="form-group"><label>Email</label><input type="email" placeholder="you@email.com"></div>
+        <div class="form-group"><label>Password</label><input type="password" placeholder="••••••••"></div>
+        <button class="form-submit" onclick="handleLogin()">Sign In →</button>
+        <div class="form-switch">New to Velour? <a onclick="openModal('signup')">Create account</a></div>
+      </div>`;
+  } else if (type === 'profile') {
+    const tagList = tags.split(',').map(t=>`<span class="ptag">${t}</span>`).join('');
+    body.innerHTML = `
+      <div style="width:100px;height:100px;border-radius:50%;overflow:hidden;margin:0 auto 20px;border:3px solid var(--rose)">
+        <img src="${img}" style="width:100%;height:100%;object-fit:cover">
+      </div>
+      <div class="modal-title">${name}</div>
+      <div style="color:var(--muted);font-size:14px;margin-bottom:16px">${age} · ${city}</div>
+      <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:20px">${tagList}</div>
+      <div style="background:rgba(224,123,138,0.08);border:1px solid rgba(224,123,138,0.2);border-radius:12px;padding:14px;margin-bottom:24px;font-size:14px;color:var(--muted)">♥ ${match}% compatibility with you</div>
+      <button class="form-submit" onclick="showToast('💌 Message sent to ${name}!');closeModal()">Send a Message</button>`;
+  }
+  overlay.classList.add('open');
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+document.getElementById('modal').addEventListener('click', e => { if (e.target.id === 'modal') closeModal(); });
+function handleSignup() {
+  closeModal();
+  showToast('🎉 Welcome to Velour! Check your email to verify.');
+}
+function handleLogin() {
+  closeModal();
+  showToast('👋 Welcome back! Great to see you.');
+}
+
+/* ═══════════════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════════════ */
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3500);
+}
+
+/* ═══════════════════════════════════════════════════════
+   KEYBOARD ESC
+═══════════════════════════════════════════════════════ */
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ═══════════════════════════════════════════════════════
+   SMOOTH NUMBER COUNT UP
+═══════════════════════════════════════════════════════ */
+function countUp(el, end, suffix='') {
+  let start = 0;
+  const step = end / 60;
+  const timer = setInterval(() => {
+    start += step;
+    if (start >= end) { el.textContent = end + suffix; clearInterval(timer); return; }
+    el.textContent = Math.floor(start) + suffix;
+  }, 16);
+}
+const statObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const nums = e.target.querySelectorAll('.hero-stat-num');
+      nums[0] && countUp(nums[0], 4.2, 'M+');
+      nums[1] && countUp(nums[1], 98, 'K');
+      nums[2] && countUp(nums[2], 142, '');
+      statObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelector('.hero-stats') && statObserver.observe(document.querySelector('.hero-stats'));
+</script>
+</body>
+</html>

@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velour — Where Souls Connect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════════════════════
+   ROOT & RESET
+════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:       #09080f;
+  --deep:     #100d1a;
+  --surface:  #17122a;
+  --card:     #1d1730;
+  --card2:    #221a38;
+  --border:   rgba(255,255,255,0.07);
+  --border2:  rgba(255,255,255,0.12);
+  --rose:     #e8607a;
+  --rose2:    #c93f5c;
+  --rose-glow:rgba(232,96,122,0.25);
+  --gold:     #d4a84c;
+  --gold2:    #f0c870;
+  --gold-glow:rgba(212,168,76,0.2);
+  --cream:    #f4ecdf;
+  --muted:    rgba(244,236,223,0.45);
+  --muted2:   rgba(244,236,223,0.25);
+  --serif:    'Playfair Display', serif;
+  --sans:     'Outfit', sans-serif;
+  --radius:   20px;
+  --trans:    0.3s cubic-bezier(0.4,0,0.2,1);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--cream); font-family: var(--sans); font-weight: 300; overflow-x: hidden; min-height: 100vh; cursor: none; }
+button { cursor: none; font-family: var(--sans); }
+a { cursor: none; }
+input, textarea, select { font-family: var(--sans); }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--rose2); border-radius: 3px; }
+
+/* ════════════════════════════════════════════════════
+   CURSOR
+════════════════════════════════════════════════════ */
+#cur-dot { position:fixed;width:7px;height:7px;background:var(--rose);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.1s,background 0.3s; }
+#cur-ring { position:fixed;width:34px;height:34px;border:1.5px solid rgba(232,96,122,0.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width 0.3s,height 0.3s,border-color 0.3s; }
+
+/* ════════════════════════════════════════════════════
+   CANVAS
+════════════════════════════════════════════════════ */
+#bg-canvas { position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.5; }
+
+/* ════════════════════════════════════════════════════
+   PAGE SYSTEM
+════════════════════════════════════════════════════ */
+.page { display:none;min-height:100vh;position:relative;z-index:1; }
+.page.active { display:block; }
+.page-fade { animation: pgFade 0.45s ease forwards; }
+@keyframes pgFade { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+/* ════════════════════════════════════════════════════
+   TOAST
+════════════════════════════════════════════════════ */
+#toast-wrap { position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:9990;display:flex;flex-direction:column;align-items:center;gap:10px; }
+.toast { background:var(--card2);border:1px solid rgba(232,96,122,0.3);border-radius:50px;padding:12px 24px;font-size:14px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 40px rgba(0,0,0,0.5);transform:translateY(70px);opacity:0;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),opacity 0.4s;white-space:nowrap; }
+.toast.show { transform:translateY(0);opacity:1; }
+
+/* ════════════════════════════════════════════════════
+   SHARED COMPONENTS
+════════════════════════════════════════════════════ */
+.btn-primary { background:linear-gradient(135deg,var(--rose2),var(--rose));color:white;border:none;border-radius:50px;font-family:var(--sans);font-size:14px;letter-spacing:0.06em;font-weight:500;transition:var(--trans);box-shadow:0 6px 24px var(--rose-glow); }
+.btn-primary:hover { transform:translateY(-2px);box-shadow:0 12px 36px rgba(232,96,122,0.45); }
+.btn-ghost { background:transparent;color:var(--cream);border:1px solid var(--border2);border-radius:50px;font-family:var(--sans);font-size:14px;font-weight:400;transition:var(--trans); }
+.btn-ghost:hover { border-color:rgba(244,236,223,0.4);background:rgba(244,236,223,0.05); }
+.btn-gold { background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0e00;border:none;border-radius:50px;font-family:var(--sans);font-size:14px;font-weight:600;letter-spacing:0.06em;transition:var(--trans);box-shadow:0 6px 24px var(--gold-glow); }
+.btn-gold:hover { transform:translateY(-2px);box-shadow:0 12px 36px rgba(212,168,76,0.4); }
+.input-field { width:100%;padding:14px 18px;background:rgba(255,255,255,0.04);border:1px solid var(--border2);border-radius:14px;color:var(--cream);font-family:var(--sans);font-size:14px;font-weight:300;outline:none;transition:border-color 0.3s; }
+.input-field:focus { border-color:rgba(232,96,122,0.5); }
+.input-field::placeholder { color:var(--muted2); }
+.label-txt { font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px; }
+.tag-pill { font-size:11px;letter-spacing:0.06em;background:rgba(255,255,255,0.06);border:1px solid var(--border2);border-radius:20px;padding:5px 12px;color:rgba(244,236,223,0.7); }
+.verified { background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a0e00;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;border-radius:20px;padding:4px 10px; }
+.match-badge { background:rgba(9,8,15,0.75);backdrop-filter:blur(12px);border:1px solid rgba(212,168,76,0.3);border-radius:20px;padding:5px 12px;font-size:12px;color:var(--gold2);display:flex;align-items:center;gap:5px; }
+
+/* ════════════════════════════════════════════════════
+   SIDEBAR NAV (app pages)
+════════════════════════════════════════════════════ */
+.app-layout { display:flex;min-height:100vh; }
+.sidebar { width:260px;flex-shrink:0;background:var(--deep);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:28px 20px;position:sticky;top:0;height:100vh;overflow-y:auto; }
+.sb-logo { font-family:var(--serif);font-size:24px;font-style:italic;margin-bottom:40px;padding:0 8px; }
+.sb-logo span { color:var(--rose); }
+.sb-nav { display:flex;flex-direction:column;gap:4px;flex:1; }
+.sb-item { display:flex;align-items:center;gap:14px;padding:13px 16px;border-radius:14px;color:var(--muted);font-size:14px;font-weight:400;transition:var(--trans);border:1px solid transparent; }
+.sb-item:hover { color:var(--cream);background:rgba(255,255,255,0.04); }
+.sb-item.active { color:var(--cream);background:rgba(232,96,122,0.12);border-color:rgba(232,96,122,0.2); }
+.sb-icon { width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;background:rgba(255,255,255,0.04);transition:var(--trans); }
+.sb-item.active .sb-icon { background:rgba(232,96,122,0.2); }
+.sb-badge { margin-left:auto;background:var(--rose2);color:white;font-size:10px;font-weight:600;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center; }
+.sb-bottom { margin-top:auto;padding-top:20px;border-top:1px solid var(--border); }
+.sb-user { display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;cursor:none;transition:var(--trans); }
+.sb-user:hover { background:rgba(255,255,255,0.04); }
+.sb-avatar { width:40px;height:40px;border-radius:50%;overflow:hidden;border:2px solid var(--border2); }
+.sb-avatar img { width:100%;height:100%;object-fit:cover; }
+.sb-uname { font-size:14px;font-weight:500; }
+.sb-ustatus { font-size:11px;color:var(--muted); }
+
+.app-content { flex:1;overflow-y:auto;min-height:100vh; }
+
+/* ════════════════════════════════════════════════════
+   ── PAGE 1: LANDING ──
+════════════════════════════════════════════════════ */
+/* TOP NAV */
+.top-nav { position:fixed;top:0;left:0;right:0;z-index:100;padding:22px 64px;display:flex;align-items:center;justify-content:space-between;transition:background 0.4s,padding 0.4s; }
+.top-nav.scrolled { background:rgba(9,8,15,0.92);backdrop-filter:blur(20px);padding:14px 64px;border-bottom:1px solid var(--border); }
+.tnav-logo { font-family:var(--serif);font-size:26px;font-style:italic;color:var(--cream); }
+.tnav-logo span { color:var(--rose); }
+.tnav-links { display:flex;gap:40px;list-style:none; }
+.tnav-links a { text-decoration:none;color:var(--muted);font-size:13px;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.3s;position:relative; }
+.tnav-links a::after { content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--rose);transition:width 0.3s; }
+.tnav-links a:hover { color:var(--cream); }
+.tnav-links a:hover::after { width:100%; }
+.tnav-actions { display:flex;gap:12px;align-items:center; }
+.tnav-login { background:none;border:1px solid var(--border2);color:var(--cream);padding:10px 24px;border-radius:50px;font-size:13px;letter-spacing:0.06em;transition:var(--trans); }
+.tnav-login:hover { border-color:rgba(244,236,223,0.35);background:rgba(244,236,223,0.05); }
+.tnav-join { background:linear-gradient(135deg,var(--rose2),var(--rose));color:white;border:none;padding:10px 26px;border-radius:50px;font-size:13px;letter-spacing:0.06em;font-weight:500;box-shadow:0 4px 20px var(--rose-glow);transition:var(--trans); }
+.tnav-join:hover { transform:scale(1.05);box-shadow:0 8px 32px rgba(232,96,122,0.5); }
+
+/* HERO */
+.hero { min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden; }
+.hero-bg { position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 65% 35%,rgba(201,63,92,0.2) 0%,transparent 65%),radial-gradient(ellipse 50% 50% at 15% 75%,rgba(212,168,76,0.12) 0%,transparent 60%),var(--bg); }
+.hero-photo { position:absolute;right:0;top:0;bottom:0;width:52%;overflow:hidden; }
+.hero-photo::before { content:'';position:absolute;inset:0;z-index:2;background:linear-gradient(to right,var(--bg) 0%,rgba(9,8,15,0.3) 50%,transparent 100%),linear-gradient(to top,var(--bg) 0%,transparent 35%); }
+.hero-photo img { width:100%;height:100%;object-fit:cover;filter:saturate(0.75)brightness(0.7); }
+.hero-inner { position:relative;z-index:5;padding:0 64px;max-width:700px; }
+.hero-eyebrow { display:inline-flex;align-items:center;gap:12px;font-size:11px;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;opacity:0;animation:slideUp 0.9s 0.2s forwards; }
+.hero-eyebrow::before,.hero-eyebrow::after { content:'';width:28px;height:1px;background:var(--gold); }
+.hero-h1 { font-family:var(--serif);font-size:clamp(50px,5.5vw,80px);font-weight:400;line-height:1.08;margin-bottom:26px;opacity:0;animation:slideUp 0.9s 0.4s forwards; }
+.hero-h1 em { display:block;font-style:italic;color:var(--rose); }
+.hero-p { font-size:16px;line-height:1.8;color:var(--muted);max-width:460px;margin-bottom:48px;font-weight:300;opacity:0;animation:slideUp 0.9s 0.6s forwards; }
+.hero-btns { display:flex;gap:16px;opacity:0;animation:slideUp 0.9s 0.8s forwards; }
+.hero-btns .btn-primary { padding:16px 44px; }
+.hero-btns .btn-ghost { padding:15px 36px; }
+.hero-stats { position:absolute;bottom:64px;left:64px;display:flex;gap:52px;z-index:5;opacity:0;animation:slideUp 0.9s 1s forwards; }
+.hs-num { font-family:var(--serif);font-size:34px;font-weight:400;color:var(--gold2);line-height:1; }
+.hs-lbl { font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-top:5px; }
+.scroll-hint { position:absolute;bottom:42px;right:64px;z-index:5;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeIn 1s 1.5s forwards; }
+.scroll-line { width:1px;height:52px;background:linear-gradient(to bottom,var(--rose),transparent);animation:pulseLine 2s infinite; }
+@keyframes pulseLine { 0%,100%{opacity:0.4;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.1)} }
+.scroll-txt { font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);writing-mode:vertical-rl; }
+
+/* MARQUEE */
+.mq-wrap { border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:16px 0;overflow:hidden;position:relative;z-index:5; }
+.mq-track { display:flex;animation:mqScroll 24s linear infinite;width:max-content; }
+.mq-item { display:flex;align-items:center;gap:18px;padding:0 28px;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);white-space:nowrap; }
+.mq-dot { width:4px;height:4px;border-radius:50%;background:var(--rose);flex-shrink:0; }
+@keyframes mqScroll { from{transform:translateX(0)}to{transform:translateX(-50%)} }
+
+/* HOW SECTION */
+.how-sec { padding:120px 64px; }
+.sec-eyebrow { display:inline-flex;align-items:center;gap:12px;font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:18px; }
+.sec-eyebrow::before { content:'';width:22px;height:1px;background:var(--gold); }
+.sec-h2 { font-family:var(--serif);font-size:clamp(34px,3.5vw,52px);font-weight:400;line-height:1.14;margin-bottom:18px; }
+.sec-h2 em { font-style:italic;color:var(--rose); }
+.sec-p { font-size:15px;color:var(--muted);line-height:1.75;max-width:500px; }
+.how-grid { display:grid;grid-template-columns:1fr 1fr;gap:90px;align-items:center;margin-top:80px; }
+.how-steps { display:flex;flex-direction:column; }
+.how-step { display:flex;gap:22px;padding:34px 0;border-bottom:1px solid var(--border);opacity:0;transform:translateX(-24px);transition:opacity 0.7s,transform 0.7s; }
+.how-step.revealed { opacity:1;transform:none; }
+.how-step:last-child { border-bottom:none; }
+.sn { font-family:var(--serif);font-size:44px;font-weight:400;color:rgba(232,96,122,0.12);line-height:1;flex-shrink:0;min-width:52px;transition:color 0.3s; }
+.how-step:hover .sn { color:rgba(232,96,122,0.35); }
+.si { width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;margin-top:2px; }
+.si-rose { background:rgba(232,96,122,0.1); }
+.si-gold { background:rgba(212,168,76,0.1); }
+.si-teal { background:rgba(80,200,190,0.1); }
+.st-title { font-family:var(--serif);font-size:20px;margin-bottom:9px; }
+.st-desc { font-size:14px;color:var(--muted);line-height:1.7; }
+.how-visual { position:relative;display:flex;justify-content:center; }
+.hw-glow { position:absolute;width:320px;height:320px;border-radius:50%;filter:blur(90px);background:radial-gradient(circle,rgba(201,63,92,0.3),transparent);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none; }
+.hw-phone { width:250px;border-radius:32px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);box-shadow:0 40px 100px rgba(0,0,0,0.6);position:relative;z-index:2; }
+.hw-phone img { width:100%;display:block; }
+.hw-fc { position:absolute;background:rgba(23,18,42,0.92);backdrop-filter:blur(20px);border:1px solid var(--border2);border-radius:16px;padding:12px 16px;box-shadow:0 16px 48px rgba(0,0,0,0.5);z-index:3; }
+.hw-fc.fl { left:-20px;top:28%; }
+.hw-fc.fr { right:-20px;bottom:22%; }
+.hw-fc-lbl { font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:4px; }
+.hw-fc-val { font-family:var(--serif);font-size:20px;font-weight:500; }
+.hw-fc-val.gold { color:var(--gold2); }
+.hw-fc-val.rose { color:var(--rose); }
+
+/* PROFILES SECTION */
+.profiles-sec { padding:100px 64px; }
+.ps-header { display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:56px; }
+.ps-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:20px; }
+.pc { border-radius:22px;overflow:hidden;position:relative;border:1px solid var(--border);opacity:0;transform:translateY(36px);transition:opacity 0.7s,transform 0.7s,box-shadow 0.4s; }
+.pc.revealed { opacity:1;transform:translateY(0); }
+.pc:nth-child(2) { margin-top:44px; }
+.pc:nth-child(4) { margin-top:-44px; }
+.pc:hover { box-shadow:0 28px 70px rgba(0,0,0,0.5),0 0 0 1px rgba(232,96,122,0.18); }
+.pc img { width:100%;aspect-ratio:3/4;object-fit:cover;display:block;filter:saturate(0.82);transition:transform 0.6s,filter 0.4s; }
+.pc:hover img { transform:scale(1.05);filter:saturate(1); }
+.pc-overlay { position:absolute;inset:0;background:linear-gradient(to top,rgba(9,8,15,0.96) 0%,rgba(9,8,15,0.2) 50%,transparent 100%);transition:0.4s; }
+.pc:hover .pc-overlay { background:linear-gradient(to top,rgba(9,8,15,0.98) 0%,rgba(9,8,15,0.4) 60%,transparent 100%); }
+.pc-body { position:absolute;bottom:0;left:0;right:0;padding:20px; }
+.pc-name { font-family:var(--serif);font-size:21px;font-weight:500;margin-bottom:4px; }
+.pc-meta { font-size:12px;color:var(--muted);margin-bottom:10px; }
+.pc-tags { display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px; }
+.pc-acts { display:flex;gap:7px;opacity:0;transform:translateY(8px);transition:opacity 0.3s,transform 0.3s; }
+.pc:hover .pc-acts { opacity:1;transform:translateY(0); }
+.pc-like { flex:1;padding:10px;border-radius:50px;border:none;background:linear-gradient(135deg,var(--rose2),var(--rose));color:white;font-size:12px;letter-spacing:0.06em;font-weight:500;transition:var(--trans); }
+.pc-view { flex:1;padding:10px;border-radius:50px;border:1px solid var(--border2);background:rgba(255,255,255,0.06);color:var(--cream);font-size:12px;transition:var(--trans); }
+.pc-view:hover { background:rgba(255,255,255,0.12); }
+.pc-mbadge { position:absolute;top:14px;right:14px; }
+
+/* FEATURES SECTION */
+.feat-sec { padding:100px 64px;background:linear-gradient(135deg,rgba(22,17,40,0.7),rgba(9,8,15,0.9));border-top:1px solid var(--border);border-bottom:1px solid var(--border); }
+.feat-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:70px; }
+.feat-item { padding:48px 36px;border-right:1px solid var(--border);opacity:0;transform:translateY(28px);transition:opacity 0.6s,transform 0.6s,background 0.3s; }
+.feat-item:last-child { border-right:none; }
+.feat-item.revealed { opacity:1;transform:none; }
+.feat-item:hover { background:rgba(255,255,255,0.02); }
+.feat-icon { width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:26px;background:linear-gradient(135deg,rgba(201,63,92,0.15),rgba(212,168,76,0.1));border:1px solid rgba(232,96,122,0.15); }
+.feat-title { font-family:var(--serif);font-size:21px;margin-bottom:13px; }
+.feat-desc { font-size:14px;color:var(--muted);line-height:1.7; }
+
+/* STORIES SECTION */
+.stories-sec { padding:110px 64px; }
+.sto-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:70px; }
+.sto-card { background:var(--card);border:1px solid var(--border);border-radius:22px;padding:34px;opacity:0;transform:translateY(28px);transition:opacity 0.7s,transform 0.7s,border-color 0.3s; }
+.sto-card.revealed { opacity:1;transform:none; }
+.sto-card:hover { border-color:rgba(232,96,122,0.22); }
+.sto-stars { color:var(--gold);font-size:13px;letter-spacing:3px;margin-bottom:18px; }
+.sto-quote { font-family:var(--serif);font-size:16px;font-style:italic;line-height:1.7;color:rgba(244,236,223,0.85);margin-bottom:26px; }
+.sto-author { display:flex;align-items:center;gap:13px; }
+.sto-av { width:46px;height:46px;border-radius:50%;overflow:hidden;border:2px solid var(--border2); }
+.sto-av img { width:100%;height:100%;object-fit:cover; }
+.sto-name { font-size:14px;font-weight:500;margin-bottom:2px; }
+.sto-loc { font-size:12px;color:var(--muted); }
+
+/* PRICING SECTION */
+.price-sec { padding:110px 64px; }
+.price-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:980px;margin:70px auto 0; }
+.plan { background:var(--card);border:1px solid var(--border);border-radius:26px;padding:42px 34px;position:relative;opacity:0;transform:translateY(28px);transition:opacity 0.7s,transform 0.7s,border-color 0.3s,box-shadow 0.3s; }
+.plan.revealed { opacity:1;transform:translateY(0); }
+.plan.featured { background:linear-gradient(145deg,rgba(201,63,92,0.14),var(--card));border-color:rgba(232,96,122,0.32);transform:translateY(-14px); }
+.plan.featured.revealed { transform:translateY(-14px); }
+.plan-bdg { position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--rose2),var(--rose));color:white;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;padding:5px 18px;border-radius:20px;font-weight:600;box-shadow:0 4px 16px var(--rose-glow); }
+.plan-name { font-family:var(--serif);font-size:24px;margin-bottom:6px; }
+.plan-tagline { font-size:13px;color:var(--muted);margin-bottom:28px; }
+.plan-price { font-family:var(--serif);font-size:50px;font-weight:400;line-height:1;margin-bottom:6px; }
+.plan-price sup { font-size:20px;vertical-align:super;margin-right:2px; }
+.plan-per { font-size:13px;color:var(--muted);margin-bottom:28px; }
+.plan-div { height:1px;background:var(--border);margin-bottom:26px; }
+.plan-feats { list-style:none;display:flex;flex-direction:column;gap:13px;margin-bottom:34px; }
+.plan-feats li { display:flex;align-items:center;gap:11px;font-size:14px;color:rgba(244,236,223,0.75); }
+.pf-check { color:var(--rose);font-size:15px;flex-shrink:0; }
+.pf-cross { color:rgba(255,255,255,0.2);font-size:15px;flex-shrink:0; }
+.plan-btn { width:100%;padding:15px;border-radius:50px;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;font-weight:500;transition:var(--trans); }
+
+/* CTA SECTION */
+.cta-sec { margin:0 64px 110px;border-radius:30px;background:linear-gradient(135deg,rgba(201,63,92,0.22),rgba(212,168,76,0.12),rgba(23,18,42,0.7));border:1px solid rgba(232,96,122,0.18);padding:80px;text-align:center;position:relative;overflow:hidden; }
+.cta-glow { position:absolute;width:500px;height:500px;border-radius:50%;filter:blur(100px);background:radial-gradient(circle,rgba(201,63,92,0.22),transparent);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none; }
+.cta-title { font-family:var(--serif);font-size:clamp(34px,3.5vw,52px);font-weight:400;line-height:1.15;margin-bottom:18px;position:relative; }
+.cta-title em { font-style:italic;color:var(--rose); }
+.cta-sub { font-size:15px;color:var(--muted);margin-bottom:42px;position:relative; }
+.cta-btns { display:flex;gap:14px;justify-content:center;position:relative; }
+.cta-btns .btn-primary { padding:16px 44px; }
+.cta-btns .btn-ghost { padding:15px 36px; }
+
+/* FOOTER */
+.site-footer { border-top:1px solid var(--border);padding:60px 64px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:52px; }
+.sf-logo { font-family:var(--serif);font-size:26px;font-style:italic;margin-bottom:14px; }
+.sf-logo span { color:var(--rose); }
+.sf-tag { font-size:13px;color:var(--muted);line-height:1.7;max-width:250px;margin-bottom:26px; }
+.sf-socials { display:flex;gap:10px; }
+.soc-btn { width:36px;height:36px;border-radius:50%;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;transition:var(--trans); }
+.soc-btn:hover { border-color:var(--rose);background:rgba(232,96,122,0.1); }
+.sf-col h4 { font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:18px; }
+.sf-col ul { list-style:none;display:flex;flex-direction:column;gap:11px; }
+.sf-col a { font-size:14px;color:var(--muted);text-decoration:none;transition:color 0.3s; }
+.sf-col a:hover { color:var(--cream); }
+.sf-bottom { border-top:1px solid var(--border);padding:22px 64px;display:flex;justify-content:space-between;align-items:center; }
+.sf-copy { font-size:12px;color:var(--muted); }
+
+/* ════════════════════════════════════════════════════
+   ── PAGE 2: AUTH (Login / Signup) ──
+════════════════════════════════════════════════════ */
+.auth-wrap { min-height:100vh;display:grid;grid-template-columns:1fr 1fr; }
+.auth-left { position:relative;overflow:hidden; }
+.auth-left img { width:100%;height:100%;object-fit:cover;filter:saturate(0.75)brightness(0.65); }
+.auth-left-overlay { position:absolute;inset:0;background:linear-gradient(to right,transparent,rgba(9,8,15,0.4)),linear-gradient(to top,rgba(9,8,15,0.9),transparent 50%); }
+.auth-left-content { position:absolute;bottom:52px;left:44px;right:44px; }
+.auth-left-quote { font-family:var(--serif);font-size:24px;font-style:italic;line-height:1.5;color:rgba(244,236,223,0.9);margin-bottom:16px; }
+.auth-left-author { font-size:13px;color:var(--muted); }
+.auth-right { background:var(--deep);display:flex;flex-direction:column;justify-content:center;padding:60px 64px;overflow-y:auto; }
+.auth-logo { font-family:var(--serif);font-size:28px;font-style:italic;margin-bottom:48px; }
+.auth-logo span { color:var(--rose); }
+.auth-title { font-family:var(--serif);font-size:36px;font-weight:400;margin-bottom:8px; }
+.auth-title em { font-style:italic;color:var(--rose); }
+.auth-sub { font-size:14px;color:var(--muted);margin-bottom:36px;line-height:1.6; }
+.auth-form { display:flex;flex-direction:column;gap:18px; }
+.auth-row { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
+.auth-divider { display:flex;align-items:center;gap:16px;color:var(--muted);font-size:13px;margin:4px 0; }
+.auth-divider::before,.auth-divider::after { content:'';flex:1;height:1px;background:var(--border); }
+.auth-social { display:flex;gap:12px; }
+.auth-soc-btn { flex:1;padding:13px;border-radius:14px;border:1px solid var(--border2);background:rgba(255,255,255,0.03);color:var(--cream);font-size:14px;display:flex;align-items:center;justify-content:center;gap:10px;transition:var(--trans); }
+.auth-soc-btn:hover { background:rgba(255,255,255,0.07);border-color:var(--border2); }
+.auth-switch { font-size:13px;color:var(--muted);margin-top:8px;text-align:center; }
+.auth-switch a { color:var(--rose);text-decoration:none;font-weight:500; }
+.auth-submit { padding:16px;border-radius:50px;font-size:14px;letter-spacing:0.08em;font-weight:500; }
+.pass-req { font-size:12px;color:var(--muted);margin-top:-8px; }
+.auth-terms { font-size:12px;color:var(--muted);text-align:center;line-height:1.6; }
+.auth-terms a { color:var(--rose); }
+
+/* ════════════════════════════════════════════════════
+   ── PAGE 3: DISCOVER / SWIPE ──
+════════════════════════════════════════════════════ */
+.discover-pg { padding:32px 40px 32px; }
+.pg-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:32px; }
+.pg-title { font-family:var(--serif);font-size:28px;font-weight:400; }
+.pg-subtitle { font-size:14px;color:var(--muted);margin-top:3px; }
+.pg-hacts { display:flex;gap:10px;align-items:center; }
+.filter-btn { display:flex;align-items:center;gap:8px;padding:10px 20px;border-radius:50px;border:1px solid var(--border2);background:rgba(255,255,255,0.04);color:var(--cream);font-size:13px;transition:var(--trans); }
+.filter-btn:hover { background:rgba(255,255,255,0.08); }
+/* Card Stack */
+.disc-layout { display:grid;grid-template-columns:1fr 360px;gap:32px;align-items:start; }
+.card-stage { position:relative;height:560px; }
+.stack-card { position:absolute;inset:0;border-radius:28px;overflow:hidden;user-select:none;border:1px solid rgba(255,255,255,0.1);box-shadow:0 28px 70px rgba(0,0,0,0.5); }
+.stack-card:nth-child(3) { transform:scale(0.93) translateY(22px);z-index:1;filter:brightness(0.7); }
+.stack-card:nth-child(2) { transform:scale(0.97) translateY(11px);z-index:2;filter:brightness(0.85); }
+.stack-card:nth-child(1) { transform:scale(1) translateY(0);z-index:3;filter:brightness(1);cursor:grab; }
+.stack-card.dragging { cursor:grabbing;transition:none!important; }
+.sc-img { width:100%;height:100%;object-fit:cover;display:block;pointer-events:none; }
+.sc-grad { position:absolute;inset:0;background:linear-gradient(to bottom,transparent 25%,rgba(9,8,15,0.35) 55%,rgba(9,8,15,0.96) 100%); }
+.sc-body { position:absolute;bottom:0;left:0;right:0;padding:26px; }
+.sc-top { position:absolute;top:0;left:0;right:0;padding:20px;display:flex;justify-content:space-between;align-items:flex-start; }
+.sc-mbadge { }
+.sc-photos { display:flex;gap:4px; }
+.sc-photo-dot { height:3px;flex:1;border-radius:2px;background:rgba(255,255,255,0.35);transition:background 0.3s; }
+.sc-photo-dot.active { background:white; }
+.sc-name { font-family:var(--serif);font-size:30px;font-weight:500;line-height:1.1; }
+.sc-meta { display:flex;align-items:center;gap:10px;margin:5px 0 14px; }
+.sc-age { font-size:13px;color:var(--muted); }
+.sc-city { font-size:13px;color:var(--muted);display:flex;align-items:center;gap:4px; }
+.sc-dist { font-size:12px;color:var(--muted);background:rgba(255,255,255,0.08);padding:3px 10px;border-radius:20px; }
+.sc-bio { font-size:14px;color:rgba(244,236,223,0.8);line-height:1.65;margin-bottom:14px;font-weight:300; }
+.sc-tags { display:flex;flex-wrap:wrap;gap:7px; }
+.swipe-like-ind { position:absolute;top:28px;left:20px;background:rgba(39,180,100,0.9);border:3px solid #27b464;border-radius:12px;padding:8px 18px;font-size:20px;font-weight:700;letter-spacing:0.1em;color:white;transform:rotate(-15deg);z-index:20;pointer-events:none;opacity:0;transition:opacity 0.15s; }
+.swipe-pass-ind { position:absolute;top:28px;right:20px;background:rgba(232,96,122,0.9);border:3px solid var(--rose);border-radius:12px;padding:8px 18px;font-size:20px;font-weight:700;letter-spacing:0.1em;color:white;transform:rotate(15deg);z-index:20;pointer-events:none;opacity:0;transition:opacity 0.15s; }
+.swipe-super-ind { position:absolute;bottom:28px;left:50%;transform:translateX(-50%);background:rgba(99,150,232,0.9);border:3px solid #6396e8;border-radius:12px;padding:8px 24px;font-size:20px;font-weight:700;letter-spacing:0.1em;color:white;z-index:20;pointer-events:none;opacity:0;transition:opacity 0.15s; }
+/* Action Buttons */
+.disc-actions { display:flex;align-items:center;justify-content:center;gap:18px;margin-top:26px; }
+.act-btn { border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;transition:transform 0.25s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.25s; }
+.act-pass { width:60px;height:60px;background:var(--card);border:1.5px solid rgba(232,96,122,0.3);color:var(--rose); }
+.act-pass:hover { transform:scale(1.12);border-color:var(--rose);background:rgba(232,96,122,0.1); }
+.act-like { width:74px;height:74px;background:linear-gradient(135deg,var(--rose2),var(--rose));color:white;box-shadow:0 8px 30px var(--rose-glow); }
+.act-like:hover { transform:scale(1.13);box-shadow:0 14px 40px rgba(232,96,122,0.55); }
+.act-super { width:60px;height:60px;background:var(--card);border:1.5px solid rgba(99,150,232,0.3);color:#6396e8; }
+.act-super:hover { transform:scale(1.12);border-color:#6396e8;background:rgba(99,150,232,0.1); }
+.act-undo { width:52px;height:52px;background:var(--card);border:1.5px solid var(--border2);color:var(--muted);font-size:18px; }
+.act-undo:hover { transform:scale(1.1);color:var(--cream); }
+/* Profile Detail Panel */
+.disc-panel { background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:26px;position:sticky;top:24px; }
+.dp-header { display:flex;align-items:center;gap:14px;margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--border); }
+.dp-av { width:64px;height:64px;border-radius:50%;overflow:hidden;border:2px solid var(--border2); }
+.dp-av img { width:100%;height:100%;object-fit:cover; }
+.dp-name { font-family:var(--serif);font-size:20px;margin-bottom:3px; }
+.dp-meta { font-size:13px;color:var(--muted); }
+.dp-compat { margin-bottom:22px; }
+.dp-compat-label { font-size:12px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;display:flex;justify-content:space-between; }
+.dp-compat-label span { color:var(--gold2);font-weight:500; }
+.compat-bar { height:6px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden; }
+.compat-fill { height:100%;border-radius:3px;background:linear-gradient(to right,var(--rose2),var(--gold));transition:width 1s; }
+.dp-section { margin-bottom:20px; }
+.dp-sec-title { font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:12px; }
+.dp-tags { display:flex;flex-wrap:wrap;gap:7px; }
+.dp-basics { display:flex;flex-direction:column;gap:10px; }
+.dp-basic-item { display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(244,236,223,0.75); }
+.dp-basic-icon { width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0; }
+.dp-quick-acts { display:flex;flex-direction:column;gap:10px;margin-top:6px; }
+.dp-act-like { padding:13px;border-radius:50px;font-size:13px;letter-spacing:0.06em; }
+.dp-act-msg { padding:12px;border-radius:50px;font-size:13px;letter-spacing:0.06em;background:rgba(255,255,255,0.05);border:1px solid var(--border2);color:var(--cream);transition:var(--trans); }
+.dp-act-msg:hover { background:rgba(255,255,255,0.1); }
+
+/* ════════════════════════════════════════════════════
+   ── PAGE 4: MATCHES ──
+════════════════════════════════════════════════════ */
+.matches-pg { padding:32px 40px; }
+.matches-tabs { display:flex;gap:4px;background:rgba(255,255,255,0.04);padding:4px;border-radius:14px;margin-bottom:32px;width:fit-content; }
+.mtab { padding:10px 24px;border-radius:10px;border:none;background:transparent;color:var(--muted);font-size:13px;letter-spacing:0.06em;font-weight:500;transition:var(--trans); }
+.mtab.active { background:var(--surface);color:var(--cream);box-shadow:0 2px 12px rgba(0,0,0,0.3); }
+.new-matches-row { display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;margin-bottom:36px;scrollbar-width:none; }
+.new-matches-row::-webkit-scrollbar { display:none; }
+.nm-item { flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:9px;cursor:none; }
+.nm-av { width:72px;height:72px;border-radius:50%;padding:2.5px;background:linear-gradient(135deg,var(--rose),var(--gold));position:relative; }
+.nm-av-inner { width:100%;height:100%;border-radius:50%;overflow:hidden;background:var(--bg); }
+.nm-av-inner img { width:100%;height:100%;object-fit:cover; }
+.nm-new { position:absolute;bottom:1px;right:1px;width:16px;height:16px;background:var(--rose);border-radius:50%;border:2px solid var(--bg); }
+.nm-name { font-size:12px;color:var(--muted); }
+.matches-list { display:flex;flex-direction:column;gap:2px; }
+.match-item { display:flex;align-items:center;gap:16px;padding:16px 14px;border-radius:16px;transition:var(--trans);cursor:none; }
+.match-item:hover { background:var(--surface); }
+.match-item.unread .mi-name { color:var(--cream);font-weight:500; }
+.match-item.unread .mi-msg { color:rgba(244,236,223,0.8); }
+.mi-av { width:58px;height:58px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid var(--border);position:relative; }
+.mi-av img { width:100%;height:100%;object-fit:cover; }
+.mi-online { position:absolute;bottom:2px;right:2px;width:12px;height:12px;background:#27b464;border-radius:50%;border:2px solid var(--bg); }
+.mi-info { flex:1;min-width:0; }
+.mi-name { font-size:15px;font-weight:400;margin-bottom:4px; }
+.mi-msg { font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:300; }
+.mi-right { display:flex;flex-direction:column;align-items:flex-end;gap:7px;flex-shrink:0; }
+.mi-time { font-size:11px;color:var(--muted); }
+.mi-badge { width:20px;height:20px;background:var(--rose);border-radius:50%;font-size:10px;color:white;display:flex;align-items:center;justify-content:center;font-weight:600; }
+.matches-empty { text-align:center;padding:80px 40px; }
+.me-icon { font-size:52px;margin-bottom:20px; }
+.me-title { font-family:var(--serif);font-size:26px;font-style:italic;color:var(--rose);margin-bottom:10px; }
+.me-sub { font-size:14px;color:var(--muted);margin-bottom:30px; }
+
+/* ════════════════════════════════════════════════════
+   ── PAGE 5: MESSAGES / CHAT ──
+════════════════════════════════════════════════════ */
+.chat-layout { display:grid;grid-template-columns:320px 1fr;height:100vh;overflow:hidden; }
+.chat-list-panel { border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden; }
+.cl-header { padding:28px 22px 18px;border-bottom:1px solid var(--border); }
+.cl-title { font-family:var(--serif);font-size:22px;margin-bottom:14px; }
+.cl-search { position:relative; }
+.cl-search input { width:100%;padding:11px 16px 11px 38px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:12px;color:var(--cream);font-family:var(--sans);font-size:13px;outline:none;transition:border-color 0.3s; }
+.cl-search input:focus { border-color:rgba(232,96,122,0.4); }
+.cl-search-icon { position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px; }
+.cl-list { flex:1;overflow-y:auto;padding:10px 10px; }
+.cl-list::-webkit-scrollbar { width:2px; }
+.cl-item { display:flex;align-items:center;gap:13px;padding:12px;border-radius:14px;cursor:none;transition:var(--trans);position:relative; }
+.cl-item:hover { background:rgba(255,255,255,0.04); }
+.cl-item.active { background:rgba(232,96,122,0.1);border:1px solid rgba(232,96,122,0.15); }
+.cl-av { width:48px;height:48px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid var(--border);position:relative; }
+.cl-av img { width:100%;height:100%;object-fit:cover; }
+.cl-online { position:absolute;bottom:1px;right:1px;width:11px;height:11px;background:#27b464;border-radius:50%;border:2px solid var(--bg); }
+.cl-info { flex:1;min-width:0; }
+.cl-name { font-size:14px;font-weight:500;margin-bottom:3px; }
+.cl-preview { font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+.cl-meta { display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0; }
+.cl-time { font-size:11px;color:var(--muted); }
+.cl-unread { width:18px;height:18px;background:var(--rose);border-radius:50%;font-size:9px;color:white;display:flex;align-items:center;justify-content:center;font-weight:600; }
+/* Chat Window */
+.chat-window { display:flex;flex-direction:column;height:100vh;overflow:hidden; }
+.cw-header { padding:20px 28px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;flex-shrink:0; }
+.cw-av { width:46px;height:46px;border-radius:50%;overflow:hidden;border:2px solid var(--border2); }
+.cw-av img { width:100%;height:100%;object-fit:cover; }
+.cw-info { flex:1; }
+.cw-name { font-size:16px;font-weight:500; }
+.cw-status { font-size:12px;color:#27b464; }
+.cw-acts { display:flex;gap:8px; }
+.cw-act-btn { width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;transition:var(--trans); }
+.cw-act-btn:hover { background:rgba(255,255,255,0.08);border-color:var(--border2); }
+.cw-messages { flex:1;overflow-y:auto;padding:24px 28px;display:flex;flex-direction:column;gap:16px; }
+.cw-messages::-webkit-scrollbar { width:2px; }
+.msg-group { display:flex;flex-direction:column;gap:6px; }
+.msg { max-width:70%;padding:12px 16px;border-radius:18px;font-size:14px;line-height:1.55;font-weight:300; }
+.msg.received { background:var(--surface);color:var(--cream);border-radius:18px 18px 18px 4px;align-self:flex-start; }
+.msg.sent { background:linear-gradient(135deg,var(--rose2),var(--rose));color:white;border-radius:18px 18px 4px 18px;align-self:flex-end; }
+.msg-time { font-size:11px;color:var(--muted);align-self:center;margin-top:4px; }
+.msg-time.sent { align-self:flex-end; }
+.msg-time.received { align-self:flex-start; }
+.msg-date-divider { text-align:center;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);padding:8px 0; }
+.typing-indicator { display:flex;align-items:center;gap:8px;padding:12px 16px;background:var(--surface);border-radius:18px;width:fit-content; }
+.typing-dot { width:7px;height:7px;border-radius:50%;background:var(--muted);animation:typingDot 1.4s infinite; }
+.typing-dot:nth-child(2) { animation-delay:0.2s; }
+.typing-dot:nth-child(3) { animation-delay:0.4s; }
+@keyframes typingDot { 0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)} }
+.cw-input-area { padding:18px 28px;border-top:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-shrink:0; }
+.cw-input-wrap { flex:1;position:relative; }
+.cw-input { width:100%;padding:14px 48px 14px 18px;background:var(--surface);border:1px solid var(--border2);border-radius:50px;color:var(--cream);font-family:var(--sans);font-size:14px;font-weight:300;outline:none;transition:border-color 0.3s; }
+.cw-input:focus { border-color:rgba(232,96,122,0.4); }
+.cw-emoji-btn { position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:18px;color:var(--muted);cursor:none;transition:color 0.3s; }
+.cw-emoji-btn:hover { color:var(--cream); }
+.cw-send { width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--rose2),var(--rose));border:none;color:white;font-size:18px;display:flex;align-items:center;justify-content:center;transition:var(--trans);box-shadow:0 4px 16px var(--rose-glow); }
+.cw-send:hover { transform:scale(1.08);box-shadow:0 8px 24px rgba(232,96,122,0.5); }
+.cw-attach { width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--muted);font-size:18px;display:flex;align-items:center;justify-content:center;transition:var(--trans); }
+.cw-attach:hover { background:rgba(255,255,255,0.1);color:var(--cream); }
+
+/* ════════════════════════════════════════════════════
+   ── PAGE 6: PROFILE ──
+════════════════════════════════════════════════════ */
+.profile-pg { padding:32px 40px; }
+.prof-grid { display:grid;grid-template-columns:360px 1fr;gap:28px;align-items:start; }
+.prof-card { background:var(--surface);border:1px solid var(--border);border-radius:24px;overflow:hidden; }
+.prof-card-bg { height:170px;background:linear-gradient(135deg,rgba(201,63,92,0.3),rgba(212,168,76,0.18));position:relative; }
+.prof-card-av { width:94px;height:94px;border-radius:50%;overflow:hidden;border:4px solid var(--bg);position:absolute;bottom:-47px;left:50%;transform:translateX(-50%); }
+.prof-card-av img { width:100%;height:100%;object-fit:cover; }
+.prof-card-body { padding:60px 24px 28px;text-align:center; }
+.prof-card-name { font-family:var(--serif);font-size:24px;font-weight:500;margin-bottom:4px; }
+.prof-card-meta { font-size:13px;color:var(--muted);margin-bottom:6px; }
+.prof-card-bio { font-size:13px;color:rgba(244,236,223,0.7);line-height:1.65;margin-bottom:20px; }
+.prof-card-tags { display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:22px; }
+.prof-stats { display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-top:1px solid var(--border); }
+.ps-stat { padding:20px;text-align:center;background:var(--surface); }
+.ps-stat-val { font-family:var(--serif);font-size:26px;font-weight:400;color:var(--rose);line-height:1; }
+.ps-stat-lbl { font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:5px; }
+/* Edit Profile */
+.edit-section { background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:28px;margin-bottom:20px; }
+.es-title { font-family:var(--serif);font-size:20px;margin-bottom:22px;display:flex;align-items:center;gap:10px; }
+.es-title span { font-size:18px; }
+.es-grid { display:grid;grid-template-columns:1fr 1fr;gap:16px; }
+.es-full { grid-column:1/-1; }
+.photo-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px; }
+.photo-slot { aspect-ratio:3/4;border-radius:14px;overflow:hidden;border:1.5px solid var(--border2);position:relative;cursor:none; }
+.photo-slot img { width:100%;height:100%;object-fit:cover; }
+.photo-slot.empty { background:rgba(255,255,255,0.03);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--muted);font-size:13px;border-style:dashed; }
+.photo-slot.empty .add-icon { font-size:28px;color:rgba(232,96,122,0.4); }
+.photo-del { position:absolute;top:7px;right:7px;width:24px;height:24px;border-radius:50%;background:rgba(9,8,15,0.8);border:none;color:var(--cream);font-size:12px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s; }
+.photo-slot:hover .photo-del { opacity:1; }
+.range-wrap { display:flex;align-items:center;gap:12px; }
+.range-wrap input[type=range] { flex:1;-webkit-appearance:none;height:4px;border-radius:2px;background:linear-gradient(to right,var(--rose) 0%,var(--rose) 70%,rgba(255,255,255,0.1) 70%,rgba(255,255,255,0.1) 100%);outline:none; }
+.range-wrap input[type=range]::-webkit-slider-thumb { -webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--rose);cursor:none;box-shadow:0 2px 8px var(--rose-glow); }
+.range-val { font-size:13px;color:var(--muted);min-width:40px; }
+.interest-wrap { display:flex;flex-wrap:wrap;gap:8px; }
+.interest-tag { padding:8px 14px;border-radius:20px;font-size:13px;border:1px solid var(--border2);background:rgba(255,255,255,0.04);color:rgba(244,236,223,0.7);cursor:none;transition:var(--trans); }
+.interest-tag.selected { background:rgba(232,96,122,0.15);border-color:rgba(232,96,122,0.4);color:var(--rose); }
+.save-btn { padding:15px 48px;border-radius:50px;font-size:14px;letter-spacing:0.08em;font-weight:500; }
+
+/* ════════════════════════════════════════════════════
+   ── PAGE 7: SETTINGS ──
+════════════════════════════════════════════════════ */
+.settings-pg { padding:32px 40px; }
+.settings-grid { display:grid;grid-template-columns:1fr 1fr;gap:22px; }
+.set-section { background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:26px; }
+.set-title { font-family:var(--serif);font-size:20px;margin-bottom:22px;display:flex;align-items:center;gap:10px; }
+.set-list { display:flex;flex-direction:column;gap:4px; }
+.set-item { display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:14px;transition:var(--trans); }
+.set-item:hover { background:rgba(255,255,255,0.03); }
+.set-item-left { display:flex;align-items:center;gap:13px; }
+.set-item-icon { width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px; }
+.si-rose { background:rgba(232,96,122,0.12); }
+.si-gold { background:rgba(212,168,76,0.12); }
+.si-blue { background:rgba(99,150,232,0.12); }
+.si-green { background:rgba(39,180,100,0.12); }
+.si-purple { background:rgba(167,99,232,0.12); }
+.set-item-name { font-size:14px;font-weight:400; }
+.set-item-sub { font-size:12px;color:var(--muted);margin-top:2px; }
+.set-arrow { color:var(--muted);font-size:16px; }
+/* Toggle */
+.toggle { position:relative;width:46px;height:26px;flex-shrink:0; }
+.toggle input { opacity:0;width:0;height:0; }
+.toggle-slider { position:absolute;inset:0;background:rgba(255,255,255,0.1);border-radius:26px;cursor:none;transition:0.3s; }
+.toggle-slider::before { content:'';position:absolute;width:20px;height:20px;left:3px;bottom:3px;background:white;border-radius:50%;transition:0.3s;box-shadow:0 2px 6px rgba(0,0,0,0.3); }
+.toggle input:checked + .toggle-slider { background:var(--rose); }
+.toggle input:checked + .toggle-slider::before { transform:translateX(20px); }
+/* Premium card in settings */
+.premium-card { background:linear-gradient(135deg,rgba(212,168,76,0.15),rgba(232,96,122,0.1));border:1px solid rgba(212,168,76,0.25);border-radius:22px;padding:28px;grid-column:1/-1; }
+.pc-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:20px; }
+.pc-crown { font-size:36px; }
+.pc-title { font-family:var(--serif);font-size:24px;color:var(--gold2); }
+.pc-sub { font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.6; }
+.pc-plans { display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px; }
+.pc-plan { padding:16px;border-radius:14px;text-align:center;border:1px solid var(--border2);background:rgba(255,255,255,0.03);cursor:none;transition:var(--trans); }
+.pc-plan.selected { border-color:rgba(212,168,76,0.5);background:rgba(212,168,76,0.08); }
+.pc-plan-name { font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px; }
+.pc-plan-price { font-family:var(--serif);font-size:24px;font-weight:500;color:var(--gold2);margin-bottom:4px; }
+.pc-plan-per { font-size:11px;color:var(--muted); }
+
+/* ════════════════════════════════════════════════════
+   ANIMATIONS & KEYFRAMES
+════════════════════════════════════════════════════ */
+@keyframes slideUp { from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)} }
+@keyframes fadeIn { from{opacity:0}to{opacity:1} }
+@keyframes popIn { from{opacity:0;transform:scale(0.75)}to{opacity:1;transform:scale(1)} }
+@keyframes shimmer { from{transform:translateX(-100%)}to{transform:translateX(100%)} }
+
+/* ════════════════════════════════════════════════════
+   MATCH OVERLAY
+════════════════════════════════════════════════════ */
+.match-overlay { position:fixed;inset:0;background:rgba(9,8,15,0.93);backdrop-filter:blur(12px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.4s; }
+.match-overlay.open { opacity:1;pointer-events:all; }
+.match-modal { text-align:center;max-width:380px;padding:48px 36px;animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+.mm-sparkle { font-size:52px;margin-bottom:18px;animation:bounce 1.5s infinite; }
+@keyframes bounce { 0%,100%{transform:scale(1)}50%{transform:scale(1.12)} }
+.mm-title { font-family:var(--serif);font-size:50px;font-weight:400;font-style:italic;color:var(--rose);line-height:1;margin-bottom:10px; }
+.mm-sub { font-size:14px;color:var(--muted);margin-bottom:34px; }
+.mm-avatars { display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:36px; }
+.mm-av { width:100px;height:100px;border-radius:50%;overflow:hidden;border:3px solid var(--rose);box-shadow:0 0 32px var(--rose-glow); }
+.mm-av img { width:100%;height:100%;object-fit:cover; }
+.mm-heart { font-size:28px;color:var(--rose); }
+.mm-btns { display:flex;flex-direction:column;gap:10px; }
+.mm-msg { padding:15px;border-radius:50px;font-size:14px;letter-spacing:0.06em; }
+.mm-skip { background:none;border:none;color:var(--muted);font-size:13px;cursor:none;padding:8px;transition:color 0.3s; }
+.mm-skip:hover { color:var(--cream); }
+
+/* MOBILE NAV (bottom) */
+.mobile-nav { display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(9,8,15,0.94);backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:10px 0 18px;z-index:100; }
+.mn-items { display:flex;justify-content:space-around; }
+.mn-item { display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 14px;cursor:none;transition:var(--trans); }
+.mn-icon { font-size:20px;line-height:1; }
+.mn-label { font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted); }
+.mn-item.active .mn-label { color:var(--rose); }
+.mn-dot { width:4px;height:4px;border-radius:50%;background:var(--rose);margin-top:-2px; }
+
+/* ════════════════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════════════════ */
+@media(max-width:1100px) {
+  .sidebar { display:none; }
+  .app-content { width:100%; }
+  .mobile-nav { display:flex; }
+  .discover-pg,.matches-pg,.profile-pg,.settings-pg { padding-bottom:90px; }
+  .disc-layout { grid-template-columns:1fr; }
+  .disc-panel { display:none; }
+  .prof-grid { grid-template-columns:1fr; }
+  .settings-grid { grid-template-columns:1fr; }
+  .pc-plans { grid-template-columns:1fr; }
+}
+@media(max-width:900px) {
+  .top-nav { padding:16px 24px; }
+  .top-nav.scrolled { padding:12px 24px; }
+  .tnav-links { display:none; }
+  .hero-inner { padding:80px 24px 0; }
+  .hero-photo { display:none; }
+  .hero-stats { left:24px;bottom:40px;gap:32px; }
+  .how-sec,.profiles-sec,.feat-sec,.stories-sec,.price-sec { padding:80px 24px; }
+  .how-grid { grid-template-columns:1fr; }
+  .hw-phone { display:none; }
+  .hw-fc { display:none; }
+  .how-visual { display:none; }
+  .ps-grid { grid-template-columns:repeat(2,1fr); }
+  .pc:nth-child(2),.pc:nth-child(4) { margin-top:0; }
+  .feat-grid { grid-template-columns:1fr; }
+  .feat-item { border-right:none;border-bottom:1px solid var(--border); }
+  .sto-grid { grid-template-columns:1fr; }
+  .price-grid { grid-template-columns:1fr; }
+  .plan.featured { transform:none; }
+  .plan.featured.revealed { transform:none; }
+  .cta-sec { margin:0 24px 80px;padding:50px 24px; }
+  .site-footer { grid-template-columns:1fr 1fr;padding:40px 24px;gap:36px; }
+  .sf-bottom { padding:18px 24px;flex-direction:column;gap:8px; }
+  .ps-header { flex-direction:column;align-items:flex-start;gap:16px; }
+  .auth-wrap { grid-template-columns:1fr; }
+  .auth-left { display:none; }
+  .auth-right { padding:40px 28px; }
+  .chat-layout { grid-template-columns:1fr; }
+  .chat-list-panel { display:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+<!-- Canvas -->
+<canvas id="bg-canvas"></canvas>
+<!-- Toast -->
+<div id="toast-wrap"></div>
+<!-- Match Overlay -->
+<div class="match-overlay" id="matchOverlay">
+  <div class="match-modal">
+    <div class="mm-sparkle">✨</div>
+    <div class="mm-title">It's a Match!</div>
+    <div class="mm-sub" id="mm-sub-text">You and Sophia both liked each other</div>
+    <div class="mm-avatars">
+      <div class="mm-av"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&q=80" alt="Me"></div>
+      <div class="mm-heart">♥</div>
+      <div class="mm-av"><img id="mm-match-img" src="" alt="Match"></div>
+    </div>
+    <div class="mm-btns">
+      <button class="btn-primary mm-msg" onclick="closeMatch(); goTo('messages')">Send a Message 💌</button>
+      <button class="mm-skip" onclick="closeMatch()">Keep Swiping</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: LANDING
+═══════════════════════════════════════════ -->
+<div class="page active page-fade" id="pg-landing">
+  <!-- Nav -->
+  <nav class="top-nav" id="top-nav">
+    <div class="tnav-logo">velour<span>.</span></div>
+    <ul class="tnav-links">
+      <li><a href="#how-sec">How It Works</a></li>
+      <li><a href="#profiles-sec">Explore</a></li>
+      <li><a href="#stories-sec">Stories</a></li>
+      <li><a href="#pricing-sec">Pricing</a></li>
+    </ul>
+    <div class="tnav-actions">
+      <button class="tnav-login" onclick="goTo('login')">Sign In</button>
+      <button class="tnav-join" onclick="goTo('signup')">Join Free ♥</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-photo">
+      <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=1000&q=80" alt="Couple">
+      <div style="position:absolute;inset:0;background:linear-gradient(to right,var(--bg) 0%,rgba(9,8,15,0.2) 45%,transparent),linear-gradient(to top,var(--bg) 0%,transparent 35%);"></div>
+    </div>
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Where Deep Connections Begin</div>
+      <h1 class="hero-h1">Find Your<em>Perfect Someone</em></h1>
+      <p class="hero-p">Velour uses intelligent matching to connect people who are truly compatible — not just physically, but intellectually, emotionally, and deeply.</p>
+      <div class="hero-btns">
+        
+        <button class="btn-primary" style="padding:16px 44px" onclick="goTo('signup')">Start Your Journey</button>
+        <button class="btn-ghost" style="padding:15px 36px" onclick="goTo('login')">Sign In</button>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div><div class="hs-num" data-count="4.2" data-suffix="M+">4.2M+</div><div class="hs-lbl">Members</div></div>
+      <div><div class="hs-num" data-count="98" data-suffix="K">98K</div><div class="hs-lbl">Couples</div></div>
+      <div><div class="hs-num" data-count="142" data-suffix="">142</div><div class="hs-lbl">Countries</div></div>
+    </div>
+    <div class="scroll-hint"><div class="scroll-line"></div><div class="scroll-txt">Scroll</div></div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="mq-wrap"><div class="mq-track" id="mq-track"></div></div>
+
+  <!-- How It Works -->
+  <section class="how-sec" id="how-sec">
+    <div class="sec-eyebrow">The Process</div>
+    <h2 class="sec-h2">Simple Steps to Your<em> Perfect Match</em></h2>
+    <p class="sec-p">From profile to connection in minutes. Our platform makes finding genuine love feel natural and effortless.</p>
+    <div class="how-grid">
+      <div class="how-steps">
+        <div class="how-step" data-reveal>
+          <div class="sn">01</div><div class="si si-rose">✨</div>
+          <div><div class="st-title">Create Your Profile</div><div class="st-desc">Share your personality, passions, and what you're looking for. Our intelligent system builds a deep picture of who you truly are.</div></div>
+        </div>
+        <div class="how-step" data-reveal style="transition-delay:0.1s">
+          <div class="sn">02</div><div class="si si-gold">🔮</div>
+          <div><div class="st-title">AI-Powered Matching</div><div class="st-desc">Our algorithm analyses 200+ compatibility dimensions — values, lifestyle, humour, goals — to surface your most meaningful matches.</div></div>
+        </div>
+        <div class="how-step" data-reveal style="transition-delay:0.2s">
+          <div class="sn">03</div><div class="si si-teal">💌</div>
+          <div><div class="st-title">Connect & Meet</div><div class="st-desc">Break the ice with curated conversation starters. When it feels right, step into the real world and let something beautiful unfold.</div></div>
+        </div>
+      </div>
+      <div class="how-visual">
+        <div class="hw-glow"></div>
+        <div class="hw-phone"><img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&q=80" alt="App"></div>
+        <div class="hw-fc fl"><div class="hw-fc-lbl">Match Score</div><div class="hw-fc-val gold">96%</div></div>
+        <div class="hw-fc fr"><div class="hw-fc-lbl">New Today</div><div class="hw-fc-val rose">♥ 14</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Profiles -->
+  <section class="profiles-sec" id="profiles-sec">
+    <div class="ps-header">
+      <div><div class="sec-eyebrow">Featured Members</div><h2 class="sec-h2">Real People,<em> Real Connections</em></h2></div>
+      <button class="btn-ghost" style="padding:12px 28px;flex-shrink:0" onclick="goTo('signup')">Explore All →</button>
+    </div>
+    <div class="ps-grid" id="landing-profiles"></div>
+  </section>
+
+  <!-- Features -->
+  <section class="feat-sec">
+    <div style="text-align:center;max-width:580px;margin:0 auto">
+      <div class="sec-eyebrow" style="justify-content:center">Why Velour</div>
+      <h2 class="sec-h2" style="text-align:center">Crafted for<em> Meaningful Bonds</em></h2>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-item" data-reveal><div class="feat-icon">🧠</div><div class="feat-title">Deep Compatibility</div><div class="feat-desc">Our proprietary algorithm analyses over 200 personality dimensions to match you with people who truly complement who you are.</div></div>
+      <div class="feat-item" data-reveal style="transition-delay:0.15s"><div class="feat-icon">🛡️</div><div class="feat-title">Verified Profiles</div><div class="feat-desc">Every member undergoes photo verification and identity checks. You'll only meet real, genuine people — no bots, no ghosts.</div></div>
+      <div class="feat-item" data-reveal style="transition-delay:0.3s"><div class="feat-icon">🔒</div><div class="feat-title">Private & Secure</div><div class="feat-desc">Your data stays yours. End-to-end encrypted messages, private mode browsing, and granular privacy controls at every step.</div></div>
+    </div>
+  </section>
+
+  <!-- Stories -->
+  <section class="stories-sec" id="stories-sec">
+    <div style="max-width:600px;margin-bottom:0">
+      <div class="sec-eyebrow">Love Stories</div>
+      <h2 class="sec-h2">They Found Love.<em> You're Next.</em></h2>
+      <p class="sec-p">Real couples who found their forever on Velour.</p>
+    </div>
+    <div class="sto-grid">
+      <div class="sto-card" data-reveal><div class="sto-stars">★★★★★</div><div class="sto-quote">"I was skeptical of dating apps. Then Velour matched me with Marco. Six months later we were inseparable. One year later — engaged."</div><div class="sto-author"><div class="sto-av"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100&q=80" alt="Sofia"></div><div><div class="sto-name">Sofia & Marco</div><div class="sto-loc">Milan, Italy</div></div></div></div>
+      <div class="sto-card" data-reveal style="transition-delay:0.15s"><div class="sto-stars">★★★★★</div><div class="sto-quote">"The match percentage is eerily accurate. When I saw 97% with James I thought it was a gimmick. Now we've been together two years."</div><div class="sto-author"><div class="sto-av"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100&q=80" alt="Amara"></div><div><div class="sto-name">Amara & James</div><div class="sto-loc">London, UK</div></div></div></div>
+      <div class="sto-card" data-reveal style="transition-delay:0.3s"><div class="sto-stars">★★★★★</div><div class="sto-quote">"After years of shallow apps, Velour felt different. Real conversations, real chemistry. We met for coffee. We didn't leave until midnight."</div><div class="sto-author"><div class="sto-av"><img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=100&q=80" alt="Elena"></div><div><div class="sto-name">Elena & Daniel</div><div class="sto-loc">Barcelona, Spain</div></div></div></div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="price-sec" id="pricing-sec">
+    <div style="text-align:center;max-width:580px;margin:0 auto">
+      <div class="sec-eyebrow" style="justify-content:center">Membership</div>
+      <h2 class="sec-h2" style="text-align:center">Invest in Your<em> Love Life</em></h2>
+      <p class="sec-p" style="margin:0 auto;text-align:center">Choose the plan that's right for you. No hidden fees, cancel anytime.</p>
+    </div>
+    <div class="price-grid">
+      <div class="plan" data-reveal><div class="plan-name">Free</div><div class="plan-tagline">Start exploring</div><div class="plan-price"><sup>$</sup>0</div><div class="plan-per">forever free</div><div class="plan-div"></div><ul class="plan-feats"><li><span class="pf-check">✓</span> Create your profile</li><li><span class="pf-check">✓</span> 10 matches per day</li><li><span class="pf-check">✓</span> Basic messaging</li><li><span class="pf-cross">✗</span> See who liked you</li><li><span class="pf-cross">✗</span> Advanced filters</li></ul><button class="plan-btn btn-ghost" onclick="goTo('signup')">Get Started</button></div>
+      <div class="plan featured" data-reveal style="transition-delay:0.1s"><div class="plan-bdg">Most Popular</div><div class="plan-name">Gold</div><div class="plan-tagline">For serious seekers</div><div class="plan-price"><sup>$</sup>19</div><div class="plan-per">per month</div><div class="plan-div"></div><ul class="plan-feats"><li><span class="pf-check">✓</span> Unlimited matches</li><li><span class="pf-check">✓</span> See who liked you</li><li><span class="pf-check">✓</span> Advanced filters</li><li><span class="pf-check">✓</span> Read receipts</li><li><span class="pf-cross">✗</span> Profile Boost</li></ul><button class="plan-btn btn-primary" onclick="goTo('signup')">Start Gold</button></div>
+      <div class="plan" data-reveal style="transition-delay:0.2s"><div class="plan-name">Platinum</div><div class="plan-tagline">The full experience</div><div class="plan-price"><sup>$</sup>39</div><div class="plan-per">per month</div><div class="plan-div"></div><ul class="plan-feats"><li><span class="pf-check">✓</span> Everything in Gold</li><li><span class="pf-check">✓</span> Weekly Boost</li><li><span class="pf-check">✓</span> 5 Super Likes/day</li><li><span class="pf-check">✓</span> Incognito mode</li><li><span class="pf-check">✓</span> VIP events access</li></ul><button class="plan-btn btn-ghost" onclick="goTo('signup')">Go Platinum</button></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-sec"><div class="cta-glow"></div><h2 class="cta-title">Your Story is Waiting<em> to Begin</em></h2><p class="cta-sub">Join over 4 million members who found meaningful connections on Velour.</p><div class="cta-btns"><button class="btn-primary" style="padding:16px 44px" onclick="goTo('signup')">Create Free Account</button><button class="btn-ghost" style="padding:15px 36px" onclick="goTo('login')">Already a Member</button></div></section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div><div class="sf-logo">velour<span>.</span></div><p class="sf-tag">Where meaningful connections happen every day. For people who believe in real love.</p><div class="sf-socials"><div class="soc-btn">𝕏</div><div class="soc-btn">in</div><div class="soc-btn">ig</div></div></div>
+    <div class="sf-col"><h4>Product</h4><ul><li><a href="#">How It Works</a></li><li><a href="#">Pricing</a></li><li><a href="#">Stories</a></li><li><a href="#">Blog</a></li></ul></div>
+    <div class="sf-col"><h4>Company</h4><ul><li><a href="#">About</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li><li><a href="#">Contact</a></li></ul></div>
+    <div class="sf-col"><h4>Legal</h4><ul><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li><li><a href="#">Cookies</a></li><li><a href="#">Safety</a></li></ul></div>
+  </footer>
+  <div class="sf-bottom"><div class="sf-copy">© 2025 Velour Inc. All rights reserved.</div><div class="sf-copy">Made with ♥ for people who believe in love</div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: SIGNUP
+═══════════════════════════════════════════ -->
+<div class="page page-fade" id="pg-signup">
+  <div class="auth-wrap">
+    <div class="auth-left">
+      <img src="https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=900&q=80" alt="Love">
+      <div class="auth-left-overlay"></div>
+      <div class="auth-left-content">
+        <div class="auth-left-quote">"The best love is the kind that awakens the soul and makes us reach for more."</div>
+        <div class="auth-left-author">— Nicholas Sparks</div>
+      </div>
+    </div>
+    <div class="auth-right">
+      <div class="auth-logo">velour<span>.</span></div>
+      <h1 class="auth-title">Begin Your<em> Journey</em></h1>
+      <p class="auth-sub">Create your free account and start meeting people who truly match your soul.</p>
+      <div class="auth-form">
+        <div class="auth-social">
+          <button class="auth-soc-btn">🌐 Continue with Google</button>
+          <button class="auth-soc-btn">🍎 Apple</button>
+        </div>
+        <div class="auth-divider">or</div>
+        <div class="auth-row">
+          <div><label class="label-txt">First Name</label><input class="input-field" type="text" placeholder="Sofia"></div>
+          <div><label class="label-txt">Last Name</label><input class="input-field" type="text" placeholder="Laurent"></div>
+        </div>
+        <div><label class="label-txt">Email Address</label><input class="input-field" type="email" placeholder="you@email.com"></div>
+        <div><label class="label-txt">Password</label><input class="input-field" type="password" placeholder="Min. 8 characters"><p class="pass-req">Use letters, numbers, and symbols for a strong password.</p></div>
+        <div class="auth-row">
+          <div><label class="label-txt">Date of Birth</label><input class="input-field" type="date"></div>
+          <div><label class="label-txt">I am a</label><select class="input-field"><option>Woman</option><option>Man</option><option>Non-binary</option><option>Other</option></select></div>
+        </div>
+        <button class="btn-primary auth-submit" onclick="handleSignup()">Create My Account →</button>
+        <p class="auth-terms">By signing up you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
+        <p class="auth-switch">Already have an account? <a onclick="goTo('login')">Sign in here</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: LOGIN
+═══════════════════════════════════════════ -->
+<div class="page page-fade" id="pg-login">
+  <div class="auth-wrap">
+    <div class="auth-left">
+      <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=900&q=80" alt="Love">
+      <div class="auth-left-overlay"></div>
+      <div class="auth-left-content">
+        <div class="auth-left-quote">"You know you're in love when you can't fall asleep because reality is finally better than your dreams."</div>
+        <div class="auth-left-author">— Dr. Seuss</div>
+      </div>
+    </div>
+    <div class="auth-right">
+      <div class="auth-logo">velour<span>.</span></div>
+      <h1 class="auth-title">Welcome<em> Back</em></h1>
+      <p class="auth-sub">Sign in to continue your journey to love. Your matches are waiting.</p>
+      <div class="auth-form">
+        <div class="auth-social">
+          <button class="auth-soc-btn">🌐 Continue with Google</button>
+          <button class="auth-soc-btn">🍎 Apple</button>
+        </div>
+        <div class="auth-divider">or sign in with email</div>
+        <div><label class="label-txt">Email Address</label><input class="input-field" type="email" placeholder="you@email.com"></div>
+        <div>
+          <label class="label-txt" style="display:flex;justify-content:space-between"><span>Password</span><a href="#" style="color:var(--rose);text-decoration:none;font-size:12px">Forgot password?</a></label>
+          <input class="input-field" type="password" placeholder="••••••••">
+        </div>
+        <button class="btn-primary auth-submit" onclick="handleLogin()">Sign In →</button>
+        <p class="auth-switch">New to Velour? <a onclick="goTo('signup')">Create a free account</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: DISCOVER
+═══════════════════════════════════════════ -->
+<div class="page page-fade" id="pg-discover">
+  <div class="app-layout">
+    <aside class="sidebar" id="sb-discover">
+      <div class="sb-logo">velour<span>.</span></div>
+      <nav class="sb-nav">
+        <div class="sb-item active" onclick="goTo('discover')"><div class="sb-icon">🔥</div>Discover</div>
+        <div class="sb-item" onclick="goTo('matches')"><div class="sb-icon">♥</div>Matches<div class="sb-badge">3</div></div>
+        <div class="sb-item" onclick="goTo('messages')"><div class="sb-icon">💬</div>Messages<div class="sb-badge">2</div></div>
+        <div class="sb-item" onclick="goTo('profile')"><div class="sb-icon">👤</div>Profile</div>
+        <div class="sb-item" onclick="goTo('settings')"><div class="sb-icon">⚙️</div>Settings</div>
+      </nav>
+      <div class="sb-bottom">
+        <div class="sb-user" onclick="goTo('profile')">
+          <div class="sb-avatar"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80" alt="Me"></div>
+          <div><div class="sb-uname">Alex Rivera</div><div class="sb-ustatus">🟢 Online</div></div>
+        </div>
+      </div>
+    </aside>
+    <div class="app-content">
+      <div class="discover-pg">
+        <div class="pg-header">
+          <div><h1 class="pg-title">Discover</h1><p class="pg-subtitle">People near you who match your vibe</p></div>
+          <div class="pg-hacts">
+            <button class="filter-btn">⚙️ Filters</button>
+            <button class="filter-btn" onclick="goTo('settings')">📍 50km</button>
+          </div>
+        </div>
+        <div class="disc-layout">
+          <div>
+            <div class="card-stage" id="cardStage">
+              <!-- Cards rendered by JS -->
+            </div>
+            <div class="disc-actions">
+              <button class="act-btn act-undo" onclick="undoSwipe()" title="Undo">↩</button>
+              <button class="act-btn act-pass" onclick="swipe('left')" title="Pass">✕</button>
+              <button class="act-btn act-like" onclick="swipe('right')" title="Like">♥</button>
+              <button class="act-btn act-super" onclick="swipe('super')" title="Super Like">★</button>
+            </div>
+          </div>
+          <div class="disc-panel" id="discPanel">
+            <!-- Profile detail rendered by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Mobile bottom nav -->
+  <div class="mobile-nav"><div class="mn-items">
+    <div class="mn-item active" onclick="goTo('discover')"><div class="mn-icon">🔥</div><div class="mn-label">Discover</div><div class="mn-dot"></div></div>
+    <div class="mn-item" onclick="goTo('matches')"><div class="mn-icon">♥</div><div class="mn-label">Matches</div></div>
+    <div class="mn-item" onclick="goTo('messages')"><div class="mn-icon">💬</div><div class="mn-label">Chat</div></div>
+    <div class="mn-item" onclick="goTo('profile')"><div class="mn-icon">👤</div><div class="mn-label">Profile</div></div>
+  </div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: MATCHES
+═══════════════════════════════════════════ -->
+<div class="page page-fade" id="pg-matches">
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sb-logo">velour<span>.</span></div>
+      <nav class="sb-nav">
+        <div class="sb-item" onclick="goTo('discover')"><div class="sb-icon">🔥</div>Discover</div>
+        <div class="sb-item active" onclick="goTo('matches')"><div class="sb-icon">♥</div>Matches</div>
+        <div class="sb-item" onclick="goTo('messages')"><div class="sb-icon">💬</div>Messages<div class="sb-badge">2</div></div>
+        <div class="sb-item" onclick="goTo('profile')"><div class="sb-icon">👤</div>Profile</div>
+        <div class="sb-item" onclick="goTo('settings')"><div class="sb-icon">⚙️</div>Settings</div>
+      </nav>
+      <div class="sb-bottom"><div class="sb-user" onclick="goTo('profile')"><div class="sb-avatar"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80" alt="Me"></div><div><div class="sb-uname">Alex Rivera</div><div class="sb-ustatus">🟢 Online</div></div></div></div>
+    </aside>
+    <div class="app-content">
+      <div class="matches-pg">
+        <div class="pg-header"><div><h1 class="pg-title">Matches</h1><p class="pg-subtitle">12 people liked you back ♥</p></div></div>
+        <div class="matches-tabs"><button class="mtab active" onclick="switchTab(this,'new')">New Matches</button><button class="mtab" onclick="switchTab(this,'all')">All Matches</button><button class="mtab" onclick="switchTab(this,'liked')">You Liked</button></div>
+        <div style="margin-bottom:10px;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted)">New Matches</div>
+        <div class="new-matches-row" id="newMatchesRow"></div>
+        <div style="margin-bottom:14px;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted)">All Conversations</div>
+        <div class="matches-list" id="matchesList"></div>
+      </div>
+    </div>
+  </div>
+  <div class="mobile-nav"><div class="mn-items">
+    <div class="mn-item" onclick="goTo('discover')"><div class="mn-icon">🔥</div><div class="mn-label">Discover</div></div>
+    <div class="mn-item active" onclick="goTo('matches')"><div class="mn-icon">♥</div><div class="mn-label">Matches</div><div class="mn-dot"></div></div>
+    <div class="mn-item" onclick="goTo('messages')"><div class="mn-icon">💬</div><div class="mn-label">Chat</div></div>
+    <div class="mn-item" onclick="goTo('profile')"><div class="mn-icon">👤</div><div class="mn-label">Profile</div></div>
+  </div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: MESSAGES
+═══════════════════════════════════════════ -->
+<div class="page page-fade" id="pg-messages">
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sb-logo">velour<span>.</span></div>
+      <nav class="sb-nav">
+        <div class="sb-item" onclick="goTo('discover')"><div class="sb-icon">🔥</div>Discover</div>
+        <div class="sb-item" onclick="goTo('matches')"><div class="sb-icon">♥</div>Matches</div>
+        <div class="sb-item active" onclick="goTo('messages')"><div class="sb-icon">💬</div>Messages</div>
+        <div class="sb-item" onclick="goTo('profile')"><div class="sb-icon">👤</div>Profile</div>
+        <div class="sb-item" onclick="goTo('settings')"><div class="sb-icon">⚙️</div>Settings</div>
+      </nav>
+      <div class="sb-bottom"><div class="sb-user" onclick="goTo('profile')"><div class="sb-avatar"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80" alt="Me"></div><div><div class="sb-uname">Alex Rivera</div><div class="sb-ustatus">🟢 Online</div></div></div></div>
+    </aside>
+    <div class="app-content" style="overflow:hidden">
+      <div class="chat-layout">
+        <!-- Conversation list -->
+        <div class="chat-list-panel">
+          <div class="cl-header">
+            <div class="cl-title">Messages</div>
+            <div class="cl-search"><span class="cl-search-icon">🔍</span><input type="text" placeholder="Search conversations..."></div>
+          </div>
+          <div class="cl-list" id="chatList"></div>
+        </div>
+        <!-- Chat window -->
+        <div class="chat-window" id="chatWindow">
+          <div class="cw-header">
+            <div class="cw-av"><img id="cw-av-img" src="" alt=""></div>
+            <div class="cw-info"><div class="cw-name" id="cw-name">Sophia Laurent</div><div class="cw-status">🟢 Online now</div></div>
+            <div class="cw-acts">
+              <div class="cw-act-btn">📞</div>
+              <div class="cw-act-btn">🎥</div>
+              <div class="cw-act-btn" onclick="goTo('profile')">👤</div>
+            </div>
+          </div>
+          <div class="cw-messages" id="cwMessages"></div>
+          <div class="cw-input-area">
+            <div class="cw-attach">📎</div>
+            <div class="cw-input-wrap">
+              <input class="cw-input" id="msgInput" type="text" placeholder="Write a message…" onkeydown="handleMsgKey(event)">
+              <button class="cw-emoji-btn">😊</button>
+            </div>
+            <button class="cw-send" onclick="sendMsg()">➤</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mobile-nav"><div class="mn-items">
+    <div class="mn-item" onclick="goTo('discover')"><div class="mn-icon">🔥</div><div class="mn-label">Discover</div></div>
+    <div class="mn-item" onclick="goTo('matches')"><div class="mn-icon">♥</div><div class="mn-label">Matches</div></div>
+    <div class="mn-item active" onclick="goTo('messages')"><div class="mn-icon">💬</div><div class="mn-label">Chat</div><div class="mn-dot"></div></div>
+    <div class="mn-item" onclick="goTo('profile')"><div class="mn-icon">👤</div><div class="mn-label">Profile</div></div>
+  </div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: PROFILE
+═══════════════════════════════════════════ -->
+<div class="page page-fade" id="pg-profile">
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sb-logo">velour<span>.</span></div>
+      <nav class="sb-nav">
+        <div class="sb-item" onclick="goTo('discover')"><div class="sb-icon">🔥</div>Discover</div>
+        <div class="sb-item" onclick="goTo('matches')"><div class="sb-icon">♥</div>Matches</div>
+        <div class="sb-item" onclick="goTo('messages')"><div class="sb-icon">💬</div>Messages</div>
+        <div class="sb-item active" onclick="goTo('profile')"><div class="sb-icon">👤</div>Profile</div>
+        <div class="sb-item" onclick="goTo('settings')"><div class="sb-icon">⚙️</div>Settings</div>
+      </nav>
+      <div class="sb-bottom"><div class="sb-user"><div class="sb-avatar"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80" alt="Me"></div><div><div class="sb-uname">Alex Rivera</div><div class="sb-ustatus">🟢 Online</div></div></div></div>
+    </aside>
+    <div class="app-content">
+      <div class="profile-pg">
+        <div class="pg-header"><div><h1 class="pg-title">My Profile</h1><p class="pg-subtitle">Edit how others see you</p></div><div class="pg-hacts"><button class="btn-gold save-btn" onclick="showToast('✅ Profile saved!')">Save Changes</button></div></div>
+        <div class="prof-grid">
+          <!-- Profile card -->
+          <div>
+            <div class="prof-card">
+              <div class="prof-card-bg"></div>
+              <div class="prof-card-av"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&q=80" alt="Me"></div>
+              <div class="prof-card-body">
+                <div class="prof-card-name">Alex Rivera</div>
+                <div class="prof-card-meta">28 · New York, USA 📍</div>
+                <div class="prof-card-bio">Designer & adventurer. Coffee addict, amateur chef, dog dad. Looking for someone to explore the world with.</div>
+                <div class="prof-card-tags"><span class="tag-pill">Photography</span><span class="tag-pill">Hiking</span><span class="tag-pill">Coffee</span><span class="tag-pill">Travel</span><span class="tag-pill">Design</span></div>
+              </div>
+              <div class="prof-stats">
+                <div class="ps-stat"><div class="ps-stat-val">47</div><div class="ps-stat-lbl">Likes</div></div>
+                <div class="ps-stat"><div class="ps-stat-val">12</div><div class="ps-stat-lbl">Matches</div></div>
+                <div class="ps-stat"><div class="ps-stat-val">94%</div><div class="ps-stat-lbl">Complete</div></div>
+              </div>
+            </div>
+            <div style="margin-top:16px;background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:22px">
+              <div style="font-size:13px;color:var(--muted);margin-bottom:16px;letter-spacing:0.1em;text-transform:uppercase">Profile Visibility</div>
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><span style="font-size:14px">Show in Discovery</span><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+              <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:14px">Online Status</span><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            </div>
+          </div>
+          <!-- Edit sections -->
+          <div>
+            <!-- Photos -->
+            <div class="edit-section">
+              <div class="es-title"><span>📸</span>My Photos</div>
+              <div class="photo-grid">
+                <div class="photo-slot"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=300&q=80" alt=""><button class="photo-del">✕</button></div>
+                <div class="photo-slot"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=80" alt=""><button class="photo-del">✕</button></div>
+                <div class="photo-slot"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&q=80" alt=""><button class="photo-del">✕</button></div>
+                <div class="photo-slot empty" onclick="showToast('📸 Photo upload coming soon!')"><div class="add-icon">+</div><span>Add Photo</span></div>
+                <div class="photo-slot empty" onclick="showToast('📸 Photo upload coming soon!')"><div class="add-icon">+</div><span>Add Photo</span></div>
+                <div class="photo-slot empty" onclick="showToast('📸 Photo upload coming soon!')"><div class="add-icon">+</div><span>Add Photo</span></div>
+              </div>
+            </div>
+            <!-- Basic Info -->
+            <div class="edit-section">
+              <div class="es-title"><span>👤</span>Basic Info</div>
+              <div class="es-grid">
+                <div><label class="label-txt">First Name</label><input class="input-field" value="Alex"></div>
+                <div><label class="label-txt">Age</label><input class="input-field" value="28"></div>
+                <div><label class="label-txt">Location</label><input class="input-field" value="New York, USA"></div>
+                <div><label class="label-txt">Height</label><input class="input-field" value="180 cm"></div>
+                <div class="es-full"><label class="label-txt">Bio</label><textarea class="input-field" rows="3" style="resize:none">Designer & adventurer. Coffee addict, amateur chef, dog dad. Looking for someone to explore the world with.</textarea></div>
+                <div><label class="label-txt">Job Title</label><input class="input-field" value="Product Designer"></div>
+                <div><label class="label-txt">Education</label><input class="input-field" value="NYU — Design"></div>
+              </div>
+            </div>
+            <!-- Interests -->
+            <div class="edit-section">
+              <div class="es-title"><span>🎯</span>Interests</div>
+              <div class="interest-wrap" id="interestTags"></div>
+            </div>
+            <!-- Preferences -->
+            <div class="edit-section">
+              <div class="es-title"><span>⚙️</span>Discovery Preferences</div>
+              <div class="es-grid">
+                <div class="es-full">
+                  <label class="label-txt">Max Distance — <span id="dist-val">50</span> km</label>
+                  <div class="range-wrap"><input type="range" min="5" max="200" value="50" oninput="document.getElementById('dist-val').textContent=this.value"></div>
+                </div>
+                <div class="es-full">
+                  <label class="label-txt">Age Range — <span id="age-min">22</span> to <span id="age-max">35</span></label>
+                  <div class="range-wrap"><input type="range" min="18" max="70" value="22" oninput="document.getElementById('age-min').textContent=this.value"><input type="range" min="18" max="70" value="35" oninput="document.getElementById('age-max').textContent=this.value"></div>
+                </div>
+                <div><label class="label-txt">Looking For</label><select class="input-field"><option>Relationship</option><option>Casual</option><option>Friendship</option></select></div>
+                <div><label class="label-txt">Show Me</label><select class="input-field"><option>Women</option><option>Men</option><option>Everyone</option></select></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mobile-nav"><div class="mn-items">
+    <div class="mn-item" onclick="goTo('discover')"><div class="mn-icon">🔥</div><div class="mn-label">Discover</div></div>
+    <div class="mn-item" onclick="goTo('matches')"><div class="mn-icon">♥</div><div class="mn-label">Matches</div></div>
+    <div class="mn-item" onclick="goTo('messages')"><div class="mn-icon">💬</div><div class="mn-label">Chat</div></div>
+    <div class="mn-item active" onclick="goTo('profile')"><div class="mn-icon">👤</div><div class="mn-label">Profile</div><div class="mn-dot"></div></div>
+  </div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: SETTINGS
+═══════════════════════════════════════════ -->
+<div class="page page-fade" id="pg-settings">
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sb-logo">velour<span>.</span></div>
+      <nav class="sb-nav">
+        <div class="sb-item" onclick="goTo('discover')"><div class="sb-icon">🔥</div>Discover</div>
+        <div class="sb-item" onclick="goTo('matches')"><div class="sb-icon">♥</div>Matches</div>
+        <div class="sb-item" onclick="goTo('messages')"><div class="sb-icon">💬</div>Messages</div>
+        <div class="sb-item" onclick="goTo('profile')"><div class="sb-icon">👤</div>Profile</div>
+        <div class="sb-item active" onclick="goTo('settings')"><div class="sb-icon">⚙️</div>Settings</div>
+      </nav>
+      <div class="sb-bottom"><div class="sb-user"><div class="sb-avatar"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80" alt="Me"></div><div><div class="sb-uname">Alex Rivera</div><div class="sb-ustatus">🟢 Online</div></div></div></div>
+    </aside>
+    <div class="app-content">
+      <div class="settings-pg">
+        <div class="pg-header"><div><h1 class="pg-title">Settings</h1><p class="pg-subtitle">Manage your account & preferences</p></div></div>
+        <div class="settings-grid">
+          <!-- Premium -->
+          <div class="premium-card">
+            <div class="pc-header"><div><div class="pc-title">Velour Gold</div><div style="font-size:13px;color:var(--muted);margin-top:3px">Upgrade to unlock everything</div></div><div class="pc-crown">✦</div></div>
+            <p class="pc-sub">See who liked you, unlimited swipes, advanced filters, read receipts and so much more.</p>
+            <div class="pc-plans">
+              <div class="pc-plan" onclick="selectPlan(this)"><div class="pc-plan-name">Monthly</div><div class="pc-plan-price">$19</div><div class="pc-plan-per">per month</div></div>
+              <div class="pc-plan selected" onclick="selectPlan(this)"><div class="pc-plan-name">6 Months</div><div class="pc-plan-price">$12</div><div class="pc-plan-per">per month</div></div>
+              <div class="pc-plan" onclick="selectPlan(this)"><div class="pc-plan-name">Yearly</div><div class="pc-plan-price">$8</div><div class="pc-plan-per">per month</div></div>
+            </div>
+            <button class="btn-gold" style="width:100%;padding:15px;font-size:14px;letter-spacing:0.08em" onclick="showToast('✦ Redirecting to checkout...')">Upgrade to Gold ✦</button>
+          </div>
+          <!-- Notifications -->
+          <div class="set-section">
+            <div class="set-title"><span>🔔</span>Notifications</div>
+            <div class="set-list">
+              <div class="set-item"><div class="set-item-left"><div class="set-item-icon si-rose">💌</div><div><div class="set-item-name">New Matches</div><div class="set-item-sub">When someone likes you back</div></div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+              <div class="set-item"><div class="set-item-left"><div class="set-item-icon si-gold">💬</div><div><div class="set-item-name">Messages</div><div class="set-item-sub">New message received</div></div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+              <div class="set-item"><div class="set-item-left"><div class="set-item-icon si-blue">♥</div><div><div class="set-item-name">Profile Likes</div><div class="set-item-sub">Someone liked your profile</div></div></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+              <div class="set-item"><div class="set-item-left"><div class="set-item-icon si-purple">🌟</div><div><div class="set-item-name">Super Likes</div><div class="set-item-sub">When you receive a super like</div></div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+            </div>
+          </div>
+          <!-- Privacy -->
+          <div class="set-section">
+            <div class="set-title"><span>🔒</span>Privacy & Safety</div>
+            <div class="set-list">
+              <div class="set-item"><div class="set-item-left"><div class="set-item-icon si-green">👁️</div><div><div class="set-item-name">Incognito Mode</div><div class="set-item-sub">Browse profiles anonymously</div></div></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+              <div class="set-item"><div class="set-item-left"><div class="set-item-icon si-rose">📍</div><div><div class="set-item-name">Show Location</div><div class="set-item-sub">Display distance on profile</div></div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+              <div class="set-item"><div class="set-item-left"><div class="set-item-icon si-blue">✅</div><div><div class="set-item-name">Read Receipts</div><div class="set-item-sub">Let matches know you've read</div></div></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+              <div class="set-item" onclick="showToast('🚫 Block list opened')"><div class="set-item-left"><div class="set-item-icon si-gold">🚫</div><div><div class="set-item-name">Blocked Users</div><div class="set-item-sub">Manage blocked profiles</div></div></div><span class="set-arrow">›</span></div>
+            </div>
+          </div>
+          <!-- Account -->
+          <div class="set-section">
+            <div class="set-title"><span>👤</span>Account</div>
+            <div class="set-list">
+              <div class="set-item" onclick="goTo('profile')"><div class="set-item-left"><div class="set-item-icon si-rose">✏️</div><div><div class="set-item-name">Edit Profile</div></div></div><span class="set-arrow">›</span></div>
+              <div class="set-item" onclick="showToast('📧 Verification email sent!')"><div class="set-item-left"><div class="set-item-icon si-gold">📧</div><div><div class="set-item-name">Email</div><div class="set-item-sub">alex@example.com · Verified</div></div></div><span class="set-arrow">›</span></div>
+              <div class="set-item" onclick="showToast('🔑 Password reset sent!')"><div class="set-item-left"><div class="set-item-icon si-blue">🔑</div><div><div class="set-item-name">Change Password</div></div></div><span class="set-arrow">›</span></div>
+              <div class="set-item" onclick="showToast('📱 Phone verified!')"><div class="set-item-left"><div class="set-item-icon si-green">📱</div><div><div class="set-item-name">Phone Verification</div><div class="set-item-sub">+1 •••• ••••78 · Active</div></div></div><span class="set-arrow">›</span></div>
+            </div>
+          </div>
+          <!-- Support -->
+          <div class="set-section">
+            <div class="set-title"><span>💡</span>Support</div>
+            <div class="set-list">
+              <div class="set-item" onclick="showToast('💬 Support chat opened!')"><div class="set-item-left"><div class="set-item-icon si-rose">💬</div><div><div class="set-item-name">Contact Support</div></div></div><span class="set-arrow">›</span></div>
+              <div class="set-item"><div class="set-item-left"><div class="set-item-icon si-gold">📖</div><div><div class="set-item-name">Help Center</div></div></div><span class="set-arrow">›</span></div>
+              <div class="set-item"><div class="set-item-left"><div class="set-item-icon si-blue">📋</div><div><div class="set-item-name">Terms of Service</div></div></div><span class="set-arrow">›</span></div>
+              <div class="set-item" style="color:var(--rose)" onclick="goTo('landing')"><div class="set-item-left"><div class="set-item-icon" style="background:rgba(232,96,122,0.1)">🚪</div><div><div class="set-item-name" style="color:var(--rose)">Sign Out</div></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mobile-nav"><div class="mn-items">
+    <div class="mn-item" onclick="goTo('discover')"><div class="mn-icon">🔥</div><div class="mn-label">Discover</div></div>
+    <div class="mn-item" onclick="goTo('matches')"><div class="mn-icon">♥</div><div class="mn-label">Matches</div></div>
+    <div class="mn-item" onclick="goTo('messages')"><div class="mn-icon">💬</div><div class="mn-label">Chat</div></div>
+    <div class="mn-item" onclick="goTo('profile')"><div class="mn-icon">👤</div><div class="mn-label">Profile</div></div>
+  </div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════ -->
+<script>
+/* ── DATA ── */
+const PROFILES = [
+  { id:1, name:'Sophia Laurent', age:26, city:'Paris, France', dist:'12 km away', bio:'Art curator by day, wine enthusiast by night. Looking for someone who appreciates Monet and midnight adventures.', tags:['Art','Wine','Travel','Jazz'], match:94, img:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=700&q=80', verified:true, job:'Art Curator', edu:'Sorbonne · Art History', drinking:'Socially', smoking:'Never' },
+  { id:2, name:'Isabella Chen', age:28, city:'New York, USA', dist:'3 km away', bio:'Architect designing futures. Coffee is my love language. Let\'s build something beautiful together.', tags:['Design','Coffee','Yoga','Books'], match:88, img:'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=700&q=80', verified:true, job:'Architect', edu:'Columbia · Architecture', drinking:'Never', smoking:'Never' },
+  { id:3, name:'Amara Osei', age:25, city:'Lagos, Nigeria', dist:'8 km away', bio:'Musician & storyteller. Every person has a song inside them. Let me find yours.', tags:['Music','Poetry','Dance','Food'], match:91, img:'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=700&q=80', verified:false, job:'Musician', edu:'Lagos Conservatory', drinking:'Socially', smoking:'Never' },
+  { id:4, name:'Elena Voss', age:27, city:'Berlin, Germany', dist:'5 km away', bio:'Photographer chasing golden hour. My camera sees the world in slow motion. Come explore with me.', tags:['Photography','Hiking','Cinema','Cooking'], match:87, img:'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=700&q=80', verified:true, job:'Photographer', edu:'FU Berlin · Fine Arts', drinking:'Socially', smoking:'Never' },
+  { id:5, name:'Mia Torres', age:24, city:'Barcelona, Spain', dist:'15 km away', bio:'Marine biologist protecting oceans and dancing flamenco on weekends. Lover of sunsets and spicy food.', tags:['Science','Dance','Ocean','Food'], match:85, img:'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=700&q=80', verified:true, job:'Marine Biologist', edu:'UB · Marine Science', drinking:'Socially', smoking:'Never' },
+];
+
+const MATCHES = [
+  { id:1, name:'Sophia', img:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=200&q=80', lastMsg:'I\'d love that 🌸', time:'2m', unread:2, online:true },
+  { id:2, name:'Isabella', img:'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=200&q=80', lastMsg:'See you Saturday?', time:'1h', unread:0, online:false },
+  { id:3, name:'Elena', img:'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=200&q=80', lastMsg:'New match! Say hello 👋', time:'3h', unread:1, online:true },
+];
+
+const CONVOS = {
+  1: { name:'Sophia Laurent', img:'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=200&q=80', online:true,
+    msgs:[
+      {t:'received',txt:'Hey! I noticed we matched 😊 I love your travel photos!',time:'10:14 AM'},
+      {t:'sent',txt:'Thank you! Paris must be incredible for photography. I\'d love to visit.',time:'10:15 AM'},
+      {t:'received',txt:'You absolutely should! The golden hour here is magical. When are you next in Europe?',time:'10:17 AM'},
+      {t:'sent',txt:'Maybe this spring? I\'ve been meaning to visit the Louvre properly.',time:'10:20 AM'},
+      {t:'received',txt:'Oh I work near there! I could give you a private curator\'s tour 🎨',time:'10:22 AM'},
+      {t:'sent',txt:'That sounds absolutely incredible, I\'d love that!',time:'10:23 AM'},
+      {t:'received',txt:'I\'d love that 🌸',time:'10:25 AM'},
+    ]},
+  2: { name:'Isabella Chen', img:'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=200&q=80', online:false,
+    msgs:[
+      {t:'received',txt:'Hi! Your design portfolio is stunning.',time:'Yesterday'},
+      {t:'sent',txt:'Thank you so much! Architecture and design are basically the same soul.',time:'Yesterday'},
+      {t:'received',txt:'Exactly! I feel like you\'d love the new MOMA exhibition.',time:'Yesterday'},
+      {t:'sent',txt:'I\'ve been wanting to go! Are you free this weekend?',time:'Yesterday'},
+      {t:'received',txt:'See you Saturday?',time:'2h ago'},
+    ]},
+  3: { name:'Elena Voss', img:'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=200&q=80', online:true,
+    msgs:[
+      {t:'received',txt:'New match! Say hello 👋',time:'3h ago'},
+    ]},
+};
+
+let currentCardIdx = 0;
+let activeChatId = 1;
+let isDragging = false, dragStartX = 0, dragStartY = 0, dragX = 0, dragY = 0;
+
+/* ── CURSOR ── */
+const dot = document.getElementById('cur-dot'), ring = document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function curAnim(){dot.style.left=mx+'px';dot.style.top=my+'px';rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(curAnim);})();
+document.addEventListener('mouseover',e=>{if(e.target.matches('button,a,[onclick],.sb-item,.set-item,.match-item,.cl-item,.nm-item,.pc,.how-step')){ring.style.width='50px';ring.style.height='50px';ring.style.borderColor='rgba(232,96,122,0.8)';dot.style.transform='translate(-50%,-50%) scale(0)';}});
+document.addEventListener('mouseout',e=>{if(e.target.matches('button,a,[onclick],.sb-item,.set-item,.match-item,.cl-item,.nm-item,.pc,.how-step')){ring.style.width='34px';ring.style.height='34px';ring.style.borderColor='rgba(232,96,122,0.5)';dot.style.transform='translate(-50%,-50%) scale(1)';}});
+
+/* ── CANVAS ── */
+const cvs=document.getElementById('bg-canvas');const cctx=cvs.getContext('2d');
+cvs.width=window.innerWidth;cvs.height=window.innerHeight;
+window.addEventListener('resize',()=>{cvs.width=window.innerWidth;cvs.height=window.innerHeight;});
+const pts=Array.from({length:60},()=>({x:Math.random()*cvs.width,y:Math.random()*cvs.height,r:Math.random()*1.4+0.3,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,a:Math.random(),c:Math.random()>.5?'232,96,122':'212,168,76'}));
+(function animPts(){cctx.clearRect(0,0,cvs.width,cvs.height);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=cvs.width;if(p.x>cvs.width)p.x=0;if(p.y<0)p.y=cvs.height;if(p.y>cvs.height)p.y=0;cctx.beginPath();cctx.arc(p.x,p.y,p.r,0,Math.PI*2);cctx.fillStyle=`rgba(${p.c},${p.a*.5})`;cctx.fill();});requestAnimationFrame(animPts);})();
+
+/* ── ROUTING ── */
+function goTo(page) {
+  document.querySelectorAll('.page').forEach(p=>{p.classList.remove('active');});
+  const pg = document.getElementById('pg-'+page);
+  if(pg){pg.classList.add('active');}
+  window.scrollTo(0,0);
+  if(page==='discover') renderDiscover();
+  if(page==='matches') renderMatches();
+  if(page==='messages') renderMessages();
+  if(page==='profile') renderProfile();
+}
+
+/* ── TOAST ── */
+function showToast(msg,dur=3000){
+  const wrap=document.getElementById('toast-wrap');
+  const t=document.createElement('div');t.className='toast';t.innerHTML=msg;
+  wrap.appendChild(t);requestAnimationFrame(()=>{requestAnimationFrame(()=>t.classList.add('show'));});
+  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),500);},dur);
+}
+
+/* ── LANDING ── */
+window.addEventListener('scroll',()=>{document.getElementById('top-nav').classList.toggle('scrolled',window.scrollY>60);});
+
+/* Marquee */
+const mqi=['Real Connections','Intelligent Matching','4.2M+ Members','Verified Profiles','Privacy First','98K Couples','Deep Compatibility'];
+const mqt=document.getElementById('mq-track');
+[...mqi,...mqi].forEach(t=>{mqt.innerHTML+=`<div class="mq-item"><div class="mq-dot"></div>${t}</div>`;});
+
+/* Landing profiles */
+const lpg=document.getElementById('landing-profiles');
+PROFILES.slice(0,4).forEach((p,i)=>{
+  lpg.innerHTML+=`<div class="pc" data-reveal style="transition-delay:${i*0.12}s">
+    <img src="${p.img}" alt="${p.name}" loading="lazy">
+    <div class="pc-overlay"></div>
+    <div class="pc-mbadge match-badge"><span style="color:var(--rose)">♥</span>${p.match}%</div>
+    <div class="pc-body">
+      <div class="pc-name">${p.name}</div>
+      <div class="pc-meta">${p.age} · ${p.city}</div>
+      <div class="pc-tags">${p.tags.map(t=>`<span class="tag-pill">${t}</span>`).join('')}</div>
+      <div class="pc-acts">
+        <button class="pc-like" onclick="showToast('💘 You liked ${p.name}!')">♥ Like</button>
+        <button class="pc-view" onclick="goTo('signup')">View</button>
+      </div>
+    </div>
+  </div>`;
+});
+
+/* Reveal observer */
+const revObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');revObs.unobserve(e.target);}});},{threshold:0.12});
+function observeReveal(){document.querySelectorAll('[data-reveal]').forEach(el=>revObs.observe(el));}
+observeReveal();
+
+/* ── AUTH ── */
+function handleSignup(){showToast('🎉 Welcome to Velour! Starting your journey...');setTimeout(()=>goTo('discover'),1000);}
+function handleLogin(){showToast('👋 Welcome back Alex!');setTimeout(()=>goTo('discover'),1000);}
+
+/* ── DISCOVER ── */
+function renderDiscover(){
+  renderCardStack();
+  renderDiscPanel(PROFILES[currentCardIdx]);
+}
+function renderCardStack(){
+  const stage=document.getElementById('cardStage');
+  stage.innerHTML='';
+  for(let i=Math.min(currentCardIdx+2,PROFILES.length-1);i>=currentCardIdx;i--){
+    const p=PROFILES[i];
+    const card=document.createElement('div');
+    card.className='stack-card';
+    card.id=`card-${p.id}`;
+    card.innerHTML=`
+      <img class="sc-img" src="${p.img}" alt="${p.name}" draggable="false">
+      <div class="sc-grad"></div>
+      <div class="sc-top">
+        <div class="match-badge"><span style="color:var(--rose)">♥</span>${p.match}%</div>
+        ${p.verified?'<span class="verified">✦ Verified</span>':''}
+      </div>
+      <div class="swipe-like-ind" id="like-ind-${p.id}">LIKE</div>
+      <div class="swipe-pass-ind" id="pass-ind-${p.id}">PASS</div>
+      <div class="swipe-super-ind" id="super-ind-${p.id}">SUPER ★</div>
+      <div class="sc-body">
+        <div class="sc-name">${p.name}</div>
+        <div class="sc-meta">
+          <span class="sc-age">${p.age}</span>
+          <span class="sc-city">📍 ${p.city}</span>
+          <span class="sc-dist">${p.dist}</span>
+        </div>
+        <div class="sc-bio">${p.bio}</div>
+        <div class="sc-tags">${p.tags.map(t=>`<span class="tag-pill">${t}</span>`).join('')}</div>
+      </div>`;
+    if(i===currentCardIdx){
+      card.addEventListener('mousedown',startDrag);
+      card.addEventListener('touchstart',startTouchDrag,{passive:true});
+    }
+    stage.appendChild(card);
+  }
+  if(currentCardIdx>=PROFILES.length){
+    stage.innerHTML=`<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:var(--surface);border-radius:28px;border:1px solid var(--border);padding:40px;gap:16px">
+      <div style="font-size:52px">✨</div>
+      <div style="font-family:var(--serif);font-size:26px;font-style:italic;color:var(--rose)">You've seen everyone!</div>
+      <div style="font-size:14px;color:var(--muted);line-height:1.65">Check back soon for new profiles, or expand your search radius in settings.</div>
+      <button class="btn-primary" style="padding:14px 36px;margin-top:10px" onclick="currentCardIdx=0;renderDiscover()">Start Over</button>
+    </div>`;
+  }
+}
+function renderDiscPanel(p){
+  if(!p)return;
+  const panel=document.getElementById('discPanel');
+  panel.innerHTML=`
+    <div class="dp-header">
+      <div class="dp-av"><img src="${p.img}" alt="${p.name}"></div>
+      <div><div class="dp-name">${p.name}</div><div class="dp-meta">${p.age} · ${p.city}</div></div>
+    </div>
+    <div class="dp-compat">
+      <div class="dp-compat-label">Compatibility <span>${p.match}%</span></div>
+      <div class="compat-bar"><div class="compat-fill" style="width:${p.match}%"></div></div>
+    </div>
+    <div class="dp-section">
+      <div class="dp-sec-title">Interests</div>
+      <div class="dp-tags">${p.tags.map(t=>`<span class="tag-pill">${t}</span>`).join('')}</div>
+    </div>
+    <div class="dp-section">
+      <div class="dp-sec-title">Basics</div>
+      <div class="dp-basics">
+        <div class="dp-basic-item"><div class="dp-basic-icon">💼</div>${p.job}</div>
+        <div class="dp-basic-item"><div class="dp-basic-icon">🎓</div>${p.edu}</div>
+        <div class="dp-basic-item"><div class="dp-basic-icon">🍷</div>Drinking: ${p.drinking}</div>
+        <div class="dp-basic-item"><div class="dp-basic-icon">🚭</div>Smoking: ${p.smoking}</div>
+      </div>
+    </div>
+    <div class="dp-quick-acts">
+      <button class="btn-primary dp-act-like" onclick="swipe('right')">♥ Like ${p.name.split(' ')[0]}</button>
+      <button class="dp-act-msg" onclick="showToast('💬 Message sent to ${p.name.split(' ')[0]}!')">Send Message</button>
+    </div>`;
+}
+
+/* Drag */
+function startDrag(e){isDragging=true;dragStartX=e.clientX;dragStartY=e.clientY;dragX=0;dragY=0;document.addEventListener('mousemove',onDrag);document.addEventListener('mouseup',endDrag);}
+function startTouchDrag(e){isDragging=true;dragStartX=e.touches[0].clientX;dragStartY=e.touches[0].clientY;dragX=0;dragY=0;document.addEventListener('touchmove',onTouchDrag,{passive:true});document.addEventListener('touchend',endTouchDrag);}
+function onDrag(e){if(!isDragging)return;updateDrag(e.clientX,e.clientY);}
+function onTouchDrag(e){if(!isDragging)return;updateDrag(e.touches[0].clientX,e.touches[0].clientY);}
+function updateDrag(cx,cy){
+  dragX=cx-dragStartX;dragY=cy-dragStartY;
+  const p=PROFILES[currentCardIdx];if(!p)return;
+  const card=document.getElementById(`card-${p.id}`);if(!card)return;
+  card.style.transform=`translateX(${dragX}px) translateY(${dragY*.3}px) rotate(${dragX*.04}deg)`;
+  card.style.transition='none';
+  card.classList.add('dragging');
+  const likeInd=document.getElementById(`like-ind-${p.id}`);
+  const passInd=document.getElementById(`pass-ind-${p.id}`);
+  if(likeInd)likeInd.style.opacity=Math.min(Math.max(dragX/80,0),1);
+  if(passInd)passInd.style.opacity=Math.min(Math.max(-dragX/80,0),1);
+}
+function endDrag(){isDragging=false;document.removeEventListener('mousemove',onDrag);document.removeEventListener('mouseup',endDrag);finishDrag();}
+function endTouchDrag(){isDragging=false;document.removeEventListener('touchmove',onTouchDrag);document.removeEventListener('touchend',endTouchDrag);finishDrag();}
+function finishDrag(){
+  if(dragX>90)swipe('right');
+  else if(dragX<-90)swipe('left');
+  else{
+    const p=PROFILES[currentCardIdx];if(!p)return;
+    const card=document.getElementById(`card-${p.id}`);if(!card)return;
+    card.style.transform='';card.style.transition='';card.classList.remove('dragging');
+    const li=document.getElementById(`like-ind-${p.id}`);const pi=document.getElementById(`pass-ind-${p.id}`);
+    if(li)li.style.opacity=0;if(pi)pi.style.opacity=0;
+  }
+  dragX=0;dragY=0;
+}
+
+function swipe(dir){
+  const p=PROFILES[currentCardIdx];if(!p)return;
+  const card=document.getElementById(`card-${p.id}`);if(!card)return;
+  const li=document.getElementById(`like-ind-${p.id}`);
+  const pi=document.getElementById(`pass-ind-${p.id}`);
+  const si=document.getElementById(`super-ind-${p.id}`);
+  card.classList.remove('dragging');
+  if(dir==='right'){if(li)li.style.opacity=1;card.style.transition='transform 0.5s ease';card.style.transform='translateX(150%) rotate(25deg)';}
+  else if(dir==='left'){if(pi)pi.style.opacity=1;card.style.transition='transform 0.5s ease';card.style.transform='translateX(-150%) rotate(-25deg)';}
+  else if(dir==='super'){if(si)si.style.opacity=1;card.style.transition='transform 0.5s ease';card.style.transform='translateY(-150%) scale(0.8)';}
+  if(dir==='right'&&Math.random()>0.45){
+    setTimeout(()=>{
+      document.getElementById('mm-sub-text').textContent=`You and ${p.name.split(' ')[0]} both liked each other`;
+      document.getElementById('mm-match-img').src=p.img;
+      document.getElementById('matchOverlay').classList.add('open');
+    },600);
+  } else {
+    setTimeout(()=>{currentCardIdx++;renderDiscover();},550);
+  }
+  if(dir==='right')showToast(`💘 You liked ${p.name.split(' ')[0]}!`);
+  else if(dir==='left')showToast(`👋 Passed on ${p.name.split(' ')[0]}`);
+  else if(dir==='super')showToast(`⭐ Super liked ${p.name.split(' ')[0]}!`);
+}
+function undoSwipe(){if(currentCardIdx>0){currentCardIdx--;renderDiscover();showToast('↩ Undone!');}}
+function closeMatch(){document.getElementById('matchOverlay').classList.remove('open');currentCardIdx++;renderDiscover();}
+
+/* ── MATCHES ── */
+function renderMatches(){
+  const nmr=document.getElementById('newMatchesRow');
+  const ml=document.getElementById('matchesList');
+  if(!nmr||!ml)return;
+  nmr.innerHTML=MATCHES.map(m=>`
+    <div class="nm-item" onclick="goTo('messages')">
+      <div class="nm-av"><div class="nm-av-inner"><img src="${m.img}" alt="${m.name}"></div>${m.online?'<div class="nm-new"></div>':''}</div>
+      <div class="nm-name">${m.name}</div>
+    </div>`).join('');
+  ml.innerHTML=MATCHES.map(m=>`
+    <div class="match-item ${m.unread>0?'unread':''}" onclick="activateChat(${m.id});goTo('messages')">
+      <div class="mi-av"><img src="${m.img}" alt="${m.name}">${m.online?'<div class="mi-online"></div>':''}</div>
+      <div class="mi-info"><div class="mi-name">${m.name}</div><div class="mi-msg">${m.lastMsg}</div></div>
+      <div class="mi-right"><div class="mi-time">${m.time}</div>${m.unread>0?`<div class="mi-badge">${m.unread}</div>`:''}</div>
+    </div>`).join('');
+}
+function switchTab(el,tab){document.querySelectorAll('.mtab').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
+
+/* ── MESSAGES ── */
+function renderMessages(){
+  const chatList=document.getElementById('chatList');
+  if(!chatList)return;
+  chatList.innerHTML=MATCHES.map(m=>`
+    <div class="cl-item ${m.id===activeChatId?'active':''}" onclick="activateChat(${m.id})">
+      <div class="cl-av"><img src="${m.img}" alt="${m.name}">${m.online?'<div class="cl-online"></div>':''}</div>
+      <div class="cl-info"><div class="cl-name">${m.name}</div><div class="cl-preview">${m.lastMsg}</div></div>
+      <div class="cl-meta"><div class="cl-time">${m.time}</div>${m.unread>0?`<div class="cl-unread">${m.unread}</div>`:''}</div>
+    </div>`).join('');
+  renderChat(activeChatId);
+}
+function activateChat(id){
+  activeChatId=id;
+  renderMessages();
+}
+function renderChat(id){
+  const convo=CONVOS[id];if(!convo)return;
+  const cwName=document.getElementById('cw-name');
+  const cwAvImg=document.getElementById('cw-av-img');
+  const msgs=document.getElementById('cwMessages');
+  if(!cwName||!cwAvImg||!msgs)return;
+  cwName.textContent=convo.name;
+  cwAvImg.src=convo.img;
+  msgs.innerHTML=`<div class="msg-date-divider">Today</div>`+convo.msgs.map(m=>`
+    <div class="msg-group">
+      <div class="msg ${m.t}">${m.txt}</div>
+      <div class="msg-time ${m.t}">${m.time}</div>
+    </div>`).join('');
+  msgs.scrollTop=msgs.scrollHeight;
+}
+function sendMsg(){
+  const input=document.getElementById('msgInput');
+  if(!input||!input.value.trim())return;
+  const txt=input.value.trim();
+  const msgs=document.getElementById('cwMessages');
+  const div=document.createElement('div');
+  div.className='msg-group';
+  div.innerHTML=`<div class="msg sent">${txt}</div><div class="msg-time sent">Now</div>`;
+  msgs.appendChild(div);
+  input.value='';
+  msgs.scrollTop=msgs.scrollHeight;
+  // Simulate reply
+  setTimeout(()=>{
+    const typing=document.createElement('div');typing.className='typing-indicator';
+    typing.innerHTML='<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+    msgs.appendChild(typing);msgs.scrollTop=msgs.scrollHeight;
+    setTimeout(()=>{
+      typing.remove();
+      const replies=['That sounds amazing! 😊','I was just thinking the same thing!','Haha yes! 🌸','Tell me more about that...','You\'re so interesting, honestly.'];
+      const rep=document.createElement('div');rep.className='msg-group';
+      rep.innerHTML=`<div class="msg received">${replies[Math.floor(Math.random()*replies.length)]}</div><div class="msg-time received">Now</div>`;
+      msgs.appendChild(rep);msgs.scrollTop=msgs.scrollHeight;
+    },1400);
+  },800);
+}
+function handleMsgKey(e){if(e.key==='Enter')sendMsg();}
+
+/* ── PROFILE ── */
+const INTERESTS=['Photography','Hiking','Coffee','Travel','Design','Music','Cooking','Reading','Yoga','Gaming','Movies','Art','Wine','Dancing','Sports','Fitness','Fashion','Food'];
+function renderProfile(){
+  const iw=document.getElementById('interestTags');if(!iw)return;
+  iw.innerHTML=INTERESTS.map(i=>`<div class="interest-tag ${['Photography','Hiking','Coffee','Travel','Design'].includes(i)?'selected':''}" onclick="this.classList.toggle('selected')">${i}</div>`).join('');
+}
+
+/* ── SETTINGS ── */
+function selectPlan(el){document.querySelectorAll('.pc-plan').forEach(p=>p.classList.remove('selected'));el.classList.add('selected');}
+
+/* ── SCROLL REVEAL ── */
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');io.unobserve(e.target);}});},{threshold:0.1});
+function setupReveal(){document.querySelectorAll('[data-reveal]').forEach(el=>{if(!el.classList.contains('revealed'))io.observe(el);});}
+setInterval(setupReveal,500);
+</script>
+</body>
+</html>
