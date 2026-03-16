@@ -5,7 +5,7 @@ function Navbar() {
   return (
     <nav id="nav">
       <a href="#" className="nav-logo">
-        HeartLink<span>.</span>
+       <img src="/tab_icons.png" alt="" style={{width:"120px"}} />
       </a>
       <ul className="nav-links">
         <li>
