@@ -52,13 +52,6 @@ export const ConnectionRequest = {
 
 };
 
- export const Chat = {
-  getAllChat: async () => {
-    const { data } = await api.get("/chat/user/:toUserId");
-    return data;
-  },
-};
-
 export const Profile = {
   getUserProfile: async () => {
     const { data } = await api.get("/user/profile/get");

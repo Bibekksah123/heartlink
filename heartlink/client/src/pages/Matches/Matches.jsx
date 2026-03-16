@@ -139,7 +139,7 @@ function Matches() {
     <div style={styles.sidebar}>
       <h4 style={styles.sectionTitle}>NEW MATCHES</h4>
       {userConnectionReicieve?.data?.map((conenction) => (
-        <div style={styles.matches}>
+        <div style={styles.matches} key={conenction?._id}>
           <div style={styles.match}>
             <img
               src={conenction?.fromUserId?.profileId?.profilePic}

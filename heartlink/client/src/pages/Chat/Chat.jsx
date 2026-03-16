@@ -8,7 +8,7 @@ import { ChatConnection } from "../../services/socket/socket";
 
 function Chat() {
   const { user: loginUser } = useAuth();
-  const currentUserId = loginUser?._id;
+  const currentUserId = loginUser?.data?._id;
 
   const [activeChatId, setActiveChatId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -31,15 +31,19 @@ function Chat() {
     queryFn: ConnectionRequest.getConnection,
   });
 
-  // Shape connections — c.fromUserId._id is the real friend user ID
-  const friendList = (connections?.data ?? []).map((c) => ({
-    id: c?.fromUserId?._id,
-    name: c?.fromUserId?.name ?? "Unknown",
-    img:
-      c?.fromUserId?.profileId?.profilePic ??
-      `https://ui-avatars.com/api/?name=${encodeURIComponent(c?.fromUserId?.name ?? "U")}`,
-    online: c?.fromUserId?.online ?? false,
-  }));
+  // Shape connections — determine friend based on which side is NOT the current user
+  const friendList = (connections?.data ?? []).map((c) => {
+    const friend =
+      c?.fromUserId?._id === currentUserId ? c?.toUserId : c?.fromUserId;
+    return {
+      id: friend?._id,
+      name: friend?.name ?? "Unknown",
+      img:
+        friend?.profileId?.profilePic ??
+        `https://ui-avatars.com/api/?name=${encodeURIComponent(friend?.name ?? "U")}`,
+      online: false,
+    };
+  });
 
   // Auto-select first friend once list loads
   useEffect(() => {
@@ -72,7 +76,7 @@ function Chat() {
           id: m._id?.toString() ?? `${Date.now()}-${Math.random()}`,
           text: m.text,
           // ✅ toString() comparison handles ObjectId vs string mismatch
-          fromMe: m.senderId?.toString() === currentUserId?.toString(),
+          fromMe: (m.senderId?._id ?? m.senderId)?.toString() === currentUserId?.toString(),
           time: new Date(m.createdAt).toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
@@ -134,6 +138,7 @@ function Chat() {
     const handleReceive = ({ from, text, timestamp }) => {
       console.log("📩 receiveChat fired:", { from, text, timestamp });
 
+      if (from === currentUserId) return; // already shown optimistically
       if (from !== activeChatId) return; // ignore messages from other rooms
 
       setMessages((prev) => [

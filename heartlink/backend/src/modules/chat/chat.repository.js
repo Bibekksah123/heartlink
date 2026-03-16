@@ -9,7 +9,7 @@ class ChatRepository {
       } )
       .populate( {
         path: "message.senderId",
-        select: [ "firstName", "lastName" ],
+        select: "name",
       } );
     if ( !chat ) {
       chat = new chatModel( {

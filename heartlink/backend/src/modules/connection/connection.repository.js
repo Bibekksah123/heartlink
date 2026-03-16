@@ -54,14 +54,18 @@ class ConnectionRepository {
         { fromUserId: loggedInUser._id, status: "accepted" },
         { toUserId: loggedInUser._id, status: "accepted" },
       ],
-    }).populate({
-      path: "fromUserId",
-      select:"name",
-      populate: {
-        path: "profileId",
-        select: "profilePic",
+    }).populate([
+      {
+        path: "fromUserId",
+        select: "name",
+        populate: { path: "profileId", select: "profilePic" },
       },
-    });
+      {
+        path: "toUserId",
+        select: "name",
+        populate: { path: "profileId", select: "profilePic" },
+      },
+    ]);
     return connections;
   }
 
