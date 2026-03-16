@@ -32,6 +32,11 @@ class ProfileService{
     return profile
   }
 
+  async userProfile(userId){
+    const profile = await profileRepository.findProfileById(userId);
+    return profile
+  }
+
 }
 
 export const profileService = new ProfileService();

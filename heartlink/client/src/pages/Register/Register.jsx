@@ -4,8 +4,12 @@ import { useState } from "react";
 import { User } from "../../services/Api/user";
 import { toast } from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
+import { useNavigation } from "react-router-dom";
+
+
 
 function Register() {
+  const navigate=useNavigation()
   const [userData, setuserData] = useState({
     name: "",
     email: "",
@@ -17,12 +21,11 @@ function Register() {
 const { mutate, isPending } = useMutation({
   mutationFn: User.createUser,
 
-  onSuccess: (data) => {
+  onSuccess: ( data ) => {
     toast.success( data?.message );
   },
 
   onError: ( error ) => {
-    console.log(error)
     toast.error(error?.response?.data?.message || "Registration failed");
   },
 });
@@ -38,7 +41,9 @@ const handleRegisternation = async () => {
     return;
   }
 
-  mutate(userData);
+  mutate( userData );
+    navigate("/login");
+  
 };
 
   return (

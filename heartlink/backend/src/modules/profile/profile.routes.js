@@ -9,5 +9,6 @@ profileRouter.use(authenticate)
 profileRouter.post("/create",profileController.createProfile)
 profileRouter.get( "/get", profileController.getPrfile )
 profileRouter.put( "/update", profileController.updateProfile )
+profileRouter.get( "/", profileController.userProfile)
 
 export default profileRouter

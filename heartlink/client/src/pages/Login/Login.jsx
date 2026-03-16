@@ -4,8 +4,10 @@ import { useMutation } from "@tanstack/react-query";
 import { User } from "../../services/Api/user";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useNavigation } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigation();
   const [userData, setuserData] = useState({
     email: "",
     password: "",
@@ -19,7 +21,6 @@ function Login() {
     },
 
     onError: (error) => {
-      console.log(error);
       toast.error(error?.response?.data?.message || "Registration failed");
     },
   });
@@ -31,8 +32,9 @@ function Login() {
     }
 
     mutate(userData);
+    navigate("/dashboard");
   };
-  
+
   return (
     <div className="page page-fade" id="pg-login">
       <div className="auth-wrap">
@@ -110,9 +112,7 @@ function Login() {
               type="submit"
               onClick={handleLogin}
             >
-              {!isPending?
-               "Sign In →":"Sign In....."
-}
+              {!isPending ? "Sign In →" : "Sign In....."}
             </button>
             <p className="auth-switch">
               New to Velour? <a href="/register">Create a free account</a>

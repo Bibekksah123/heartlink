@@ -1,10 +1,13 @@
+import { useMutation, useQuery } from '@tanstack/react-query';
 import React from 'react';
+import { ConnectionRequest } from '../../services/Api/user';
+import toast from 'react-hot-toast';
 
 function Matches() {
 
  const styles = {
    sidebar: {
-     width: "40%",
+     width: "60%",
      height: "100vh",
      padding: "20px",
      fontFamily: "Arial, sans-serif",
@@ -91,41 +94,95 @@ function Matches() {
      fontSize: "12px",
      cursor: "pointer",
    },
- };
+  };
+  
+
+
+   const { mutate:acceptOrRjectMutation} = useMutation({
+     mutationFn: ConnectionRequest.AcceptOrRejectConnection,
+     onSuccess: ( data ) => {
+       toast.success(data?.message);
+     },
+
+     onError: (error) => {
+       toast.error(error?.response?.data?.message || "Registration failed");
+     },
+   });
+
+
+    const { data: connectionRequest } = useQuery({
+      queryKey: ["user/connection"],
+      queryFn: ConnectionRequest.connectionRecieve,
+      onError: (error) => {
+        toast.error(error?.response?.data?.message || "Failed to load profile");
+      },
+    } );
+  
+  
+  const { data: userConnectionReicieve } = useQuery({
+    queryKey: ["user/connection/receve"],
+    queryFn: ConnectionRequest.getConnection,
+    onError: (error) => {
+      toast.error(error?.response?.data?.message || "Failed to load profile");
+    },
+  } );
+  
+  
+
+  const ConnectionRecive = connectionRequest?.data
+
+  const handleRequest = (  Id, status  ) => {
+    acceptOrRjectMutation( {Id, status } )
+  }
 
   return (
     <div style={styles.sidebar}>
       <h4 style={styles.sectionTitle}>NEW MATCHES</h4>
-
-      <div style={styles.matches}>
-        <div style={styles.match}>
-          <img
-            src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=200"
-            alt="Sophia"
-            style={styles.matchImage}
-          />
-          <span>Sophia</span>
+      {userConnectionReicieve?.data?.map((conenction) => (
+        <div style={styles.matches}>
+          <div style={styles.match}>
+            <img
+              src={conenction?.fromUserId?.profileId?.profilePic}
+              alt="Sophia"
+              style={styles.matchImage}
+            />
+          </div>
         </div>
-      </div>
+      ))}
 
       <h4 style={{ ...styles.sectionTitle, marginTop: "40px" }}>
         New Connection Request
       </h4>
-
-      <div style={styles.conversation}>
-        <img
-          src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=200"
-          alt="Sophia"
-          style={styles.conversationImage}
-        />
-        <div>
-          <h5 style={styles.name}>Sophia</h5>
-          <p style={styles.message}>I'd love that 🌸</p>
-        </div>
-        <div style={styles.buttonGroup}>
-          <button style={styles.rejectBtn}>Reject</button>
-          <button style={styles.acceptBtn}>Accept</button>
-        </div>
+      <div>
+        {ConnectionRecive?.map((userReuest) => (
+          <div style={styles.conversation} key={userReuest._id}>
+            <img
+              src={userReuest?.fromUserId?.profileId?.profilePic}
+              alt="Sophia"
+              style={styles.conversationImage}
+            />
+            <div>
+              <h5 style={styles.name}>{userReuest?.fromUserId?.name}</h5>
+              <p style={styles.message}>
+                {userReuest?.fromUserId?.profileId?.bio}
+              </p>
+            </div>
+            <div style={styles.buttonGroup}>
+              <button
+                style={styles.rejectBtn}
+                onClick={() => handleRequest(userReuest?._id, "rejected")}
+              >
+                Reject
+              </button>
+              <button
+                style={styles.acceptBtn}
+                onClick={() => handleRequest(userReuest?._id, "accepted")}
+              >
+                Accept
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -54,7 +54,7 @@ class ConnectionService {
   }
 
   async getReceivedConnectionRequest( loggedInUser ) {
-    const receivedConnectionRequests = await connectionRepository.findReceivedConnectionRequests(loggedInUser);
+    const receivedConnectionRequests = await connectionRepository.findReceivedConnectionRequests( loggedInUser );
     return receivedConnectionRequests;
   }
 

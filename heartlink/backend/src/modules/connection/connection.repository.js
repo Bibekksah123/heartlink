@@ -20,11 +20,13 @@ class ConnectionRepository {
     const connectionRequest = await ConnectionRequestModel.create(
       connectionRequestData,
     );
-    logger.info(`Connection request created from user ${connectionRequestData.fromUserId} to user ${connectionRequestData.toUserId} with status ${connectionRequestData.status}`);
+    logger.info(
+      `Connection request created from user ${connectionRequestData.fromUserId} to user ${connectionRequestData.toUserId} with status ${connectionRequestData.status}`,
+    );
     return connectionRequest;
   }
 
-  async findConnectionRequestById( requestId, loggedInUser ) {
+  async findConnectionRequestById(requestId, loggedInUser) {
     return await ConnectionRequestModel.findOne({
       _id: requestId,
       toUserId: loggedInUser._id,
@@ -33,15 +35,17 @@ class ConnectionRepository {
   }
 
   async findReceivedConnectionRequests(loggedInUser) {
-    return (
-      await ConnectionRequestModel.find({
-        toUserId: loggedInUser._id,
-        status: "interested",
-      }).populate("fromUserId", "firstName lastName age gender ").populate(
-        "toUserId",
-        "profilePic bio skill experience interest location",
-      )
-    );
+    return await ConnectionRequestModel.find({
+      toUserId: loggedInUser._id,
+      status: "interested",
+    }).populate({
+      path: "fromUserId",
+      select: "name",
+      populate: {
+        path: "profileId",
+        select: "profilePic  bio",
+      },
+    });
   }
 
   async findConnections(loggedInUser) {
@@ -50,17 +54,19 @@ class ConnectionRepository {
         { fromUserId: loggedInUser._id, status: "accepted" },
         { toUserId: loggedInUser._id, status: "accepted" },
       ],
-    })
-      .populate("fromUserId", "firstName lastName age gender")
-      .populate(
-        "toUserId",
-        "firstName lastName age profilePic bio skill experience interest location",
-      );
+    }).populate({
+      path: "fromUserId",
+      select:"name",
+      populate: {
+        path: "profileId",
+        select: "profilePic",
+      },
+    });
     return connections;
   }
 
-  async getFeed( loggedInUser, skip, limit ) {
-    const connectionRequest = await ConnectionRequestModel.find( {
+  async getFeed(loggedInUser, skip, limit) {
+    const connectionRequest = await ConnectionRequestModel.find({
       $or: [
         {
           toUserId: loggedInUser,
@@ -69,13 +75,13 @@ class ConnectionRepository {
           fromUserId: loggedInUser,
         },
       ],
-    } ).select( "fromUserId toUserId" );
+    }).select("fromUserId toUserId");
 
     const hiddenUserConnection = new Set();
-    connectionRequest.map( ( feed ) => {
-      hiddenUserConnection.add( feed.fromUserId.toString() );
-      hiddenUserConnection.add( feed.toUserId.toString() );
-    } );
+    connectionRequest.map((feed) => {
+      hiddenUserConnection.add(feed.fromUserId.toString());
+      hiddenUserConnection.add(feed.toUserId.toString());
+    });
 
     const feedUser = await User.find(
       {
@@ -86,14 +92,12 @@ class ConnectionRepository {
       },
       "name profileId",
     )
-      .populate("profileId", "profilePic age") 
+      .populate("profileId", "profilePic age")
       .skip(skip)
       .limit(limit);
-    
+
     return feedUser;
   }
-
-
 }
 
 export const connectionRepository = new ConnectionRepository();

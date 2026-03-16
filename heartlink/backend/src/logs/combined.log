@@ -1213,3 +1213,379 @@
 [2026-03-15 16:11:21] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
 [2026-03-15 16:11:21] [32minfo[39m: 🚀  Server running on port 8000 in development mode
 [2026-03-15 16:11:58] [32minfo[39m: SIGINT received. Shutting down gracefully...
+[2026-03-15 16:15:23] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:15:23] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:15:40] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:15:40] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:16:25] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:16:25] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:16:37] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:16:37] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:16:41] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:16:41] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:16:56] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:16:56] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:16:59] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:16:59] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:17:19] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:17:19] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:17:30] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:17:30] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:18:17] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:18:17] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:18:23] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:18:23] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:18:32] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:18:32] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:18:49] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:18:49] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:18:52] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:18:52] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:18:59] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:18:59] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:19:02] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:19:02] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:19:09] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:19:09] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:19:13] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:19:13] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:19:16] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:19:16] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:19:24] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:19:24] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:19:29] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:19:29] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:19:31] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:19:31] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:19:52] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:19:52] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:20:03] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:20:03] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:20:19] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:20:19] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:20:31] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:20:31] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:20:36] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:20:36] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:20:37] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:20:37] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:21:40] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:21:40] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:21:49] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:22:19] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:23:58] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:23:58] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:25:00] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:25:00] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:25:51] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:26:36] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:26:36] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:26:52] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:27:00] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:27:50] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:27:50] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:27:51] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:27:59] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:28:00] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:28:40] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:28:53] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:29:26] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:29:30] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:29:57] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:30:58] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:31:14] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:31:59] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:34:57] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:34:59] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:34:59] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:35:59] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:36:00] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:36:29] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:36:29] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:36:30] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:36:30] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:37:04] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:37:04] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:37:55] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:37:55] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:39:06] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:39:27] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:40:22] [32minfo[39m: Connection request created from user 69b657ccac77371f16025cf6 to user 69b656caac77371f16025cdb with status interested
+[2026-03-15 16:44:52] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:45:10] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:45:16] [32minfo[39m: Profile retrieved for user: 69b657ccac77371f16025cf6
+[2026-03-15 16:45:38] [32minfo[39m: User logged in: arjun.test@example.com
+[2026-03-15 16:45:40] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:45:40] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:50:35] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:50:51] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:50:56] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:50:56] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:51:32] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:51:32] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:51:46] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:52:02] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:52:05] [32minfo[39m: Profile updated for user: 69b656caac77371f16025cdb
+[2026-03-15 16:53:08] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:53:42] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:53:42] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:54:35] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:54:35] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:54:39] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:54:41] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:54:41] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:55:10] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:55:10] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:55:15] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:55:15] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:55:34] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:55:34] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:55:34] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:55:55] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:56:50] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:56:50] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:56:53] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:56:55] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:56:55] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:58:14] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:58:14] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:58:17] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:58:18] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:58:18] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:59:18] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 16:59:18] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 16:59:22] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:59:23] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 16:59:23] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:00:09] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 17:00:09] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 17:00:13] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 17:00:13] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 17:00:15] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:00:17] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:00:17] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:00:48] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 17:00:48] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 17:00:56] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 17:00:56] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 17:00:58] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 17:00:58] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 17:01:04] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 17:01:04] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 17:01:04] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:01:06] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:01:06] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:01:22] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 17:01:22] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 17:01:23] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:01:24] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:01:24] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:02:15] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 17:02:15] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 17:02:28] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 17:02:28] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 17:02:33] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 17:02:33] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 17:02:34] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:02:57] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 17:02:57] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 17:03:02] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 17:03:02] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 17:03:03] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:03:26] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 17:03:26] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 17:04:21] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 17:04:21] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 17:04:23] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 17:04:23] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 17:04:37] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:04:39] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:04:39] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:05:47] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 17:05:47] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 17:05:59] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:07:06] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 17:07:06] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 17:07:08] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:07:09] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:07:09] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:07:37] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:08:03] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 17:08:03] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 17:08:06] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 17:08:06] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 17:08:08] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 17:08:08] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 17:08:13] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:08:56] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:08:58] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:08:58] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:09:13] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:09:13] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:12:14] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:12:24] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:17:11] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:17:11] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:17:31] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:17:31] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:17:58] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:17:58] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:18:51] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:19:19] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:19:22] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:19:22] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:19:42] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:44:51] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:44:51] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:45:02] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:45:02] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:45:41] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:45:41] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:46:40] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:46:54] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:47:04] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:47:05] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:47:40] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:48:13] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:48:16] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:48:16] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:49:55] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:50:58] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:51:12] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:51:15] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:51:15] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:52:17] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:52:20] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:52:24] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:52:26] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:52:26] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:52:41] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:53:13] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:53:16] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:53:16] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:53:29] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:53:29] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:56:16] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:56:18] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:56:21] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:56:24] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:56:29] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:57:46] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:57:46] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:57:47] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 17:57:47] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:13:08] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:13:09] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:13:09] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:13:09] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:14:10] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 18:14:10] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 18:14:10] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:14:30] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 18:14:30] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 18:14:33] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 18:14:33] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 18:14:33] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:15:57] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 18:15:57] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 18:16:42] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:16:53] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:17:24] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:17:51] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:18:01] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:18:14] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:18:39] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:18:42] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:18:42] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:18:42] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:19:15] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:19:15] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:19:42] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:19:43] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:19:45] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:19:46] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:19:50] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:19:50] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:20:00] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:20:03] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:20:03] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:20:27] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:20:41] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:20:49] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:22:55] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:25:26] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:25:28] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:25:28] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:25:45] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:25:46] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 18:25:50] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:02:58] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 20:02:58] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 20:03:24] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:03:24] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:05:24] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:05:24] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:05:38] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:05:39] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:18:40] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:18:58] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:18:58] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:22:16] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:42:03] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:42:15] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:42:15] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:51:03] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:51:03] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:51:03] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:51:07] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:51:09] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:51:20] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:51:20] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:51:22] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:54:40] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:54:40] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:54:56] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:54:56] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:55:42] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:55:42] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:56:04] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:56:04] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:56:35] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:56:35] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:56:36] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:56:51] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:57:02] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:58:52] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 20:58:52] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:00:17] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 21:00:17] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 21:00:19] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:00:26] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:00:34] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:00:47] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:03:16] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:03:20] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:03:25] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:04:49] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:04:54] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:05:04] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:05:28] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:05:50] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:05:58] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:06:01] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:06:21] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:06:23] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:06:31] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:06:50] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:06:50] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:07:00] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:09:50] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 21:09:50] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 21:10:14] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 21:10:14] [32minfo[39m: 🚀  Server running on port 8000 in development mode
+[2026-03-15 21:10:35] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:10:57] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:11:57] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:12:03] [32minfo[39m: Profile retrieved for user: 69b656caac77371f16025cdb
+[2026-03-15 21:12:04] [32minfo[39m: ✅  MongoDB connected: 127.0.0.1
+[2026-03-15 21:12:04] [32minfo[39m: 🚀  Server running on port 8000 in development mode

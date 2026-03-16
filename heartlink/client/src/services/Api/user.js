@@ -27,20 +27,29 @@ export const ConnectionRequest = {
     const { data } = await api.get("/connection/feed");
     return data;
   },
+  
+  getConnection: async () => {
+    const { data } = await api.get("/connection/connections");
+    return data;
+  },
+
   connectionRecieve: async () => {
     const { data } = await api.get("/connection/received-requests");
     return data;
   },
+
   sentConnectionRequest: async ( { requestId, status } ) => {
     const { data } = await api.post(
       `/connection/request/${requestId}/${status}`,
     );
     return data;
   },
-  AcceptOrRejectConnection: async (Id, status) => {
-    const { data } = await api.post(`/connection/request/${Id}/${status}`);
+
+  AcceptOrRejectConnection: async ( { Id, status } ) => {
+    const { data } = await api.put(`/connection/request/${Id}/${status}`);
     return data;
   },
+
 };
 
  export const Chat = {
@@ -65,4 +74,9 @@ export const Profile = {
     const { data } = await api.put("/user/profile/update", payload);
     return data;
   },
+
+  userProfile: async () => {
+    const { data } = await api.get( "/user/profile" );
+    return data
+  }
 };

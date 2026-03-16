@@ -16,7 +16,6 @@ function Setting() {
     mutationFn: User.logoutUser,
     onSuccess: () => {
       toast.success("logout successfully");
-      navigate("/login");
     },
   });
 
